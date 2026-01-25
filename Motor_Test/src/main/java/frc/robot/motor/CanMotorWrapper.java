@@ -9,7 +9,6 @@ import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -48,7 +47,7 @@ public class CanMotorWrapper implements UniversalMotor {
   private final VelocityVoltage talonFxVelocity = new VelocityVoltage(0.0);
   private final PositionVoltage talonFxPosition = new PositionVoltage(0.0);
   private final MotionMagicVoltage talonFxMotionMagic = new MotionMagicVoltage(0.0);
-  private final TorqueCurrentFOC talonFxTorque = new TorqueCurrentFOC(0.0);
+  private boolean warnedCurrentNoPro = false;
 
   private Mode controlMode = Mode.DUTY_CYCLE;
   private double healthScore = 0.0;
@@ -222,7 +221,8 @@ public class CanMotorWrapper implements UniversalMotor {
         talon.setControl(talonFxPosition.withPosition(value));
         break;
       case CURRENT:
-        talon.setControl(talonFxTorque.withOutput(value));
+        warnCurrentNotSupported();
+        talon.setControl(talonFxDuty.withOutput(0.0));
         break;
       case SMART_MOTION:
         talon.setControl(talonFxMotionMagic.withPosition(value));
@@ -250,7 +250,8 @@ public class CanMotorWrapper implements UniversalMotor {
         talon.setControl(talonFxPosition.withPosition(value));
         break;
       case CURRENT:
-        talon.setControl(talonFxTorque.withOutput(value));
+        warnCurrentNotSupported();
+        talon.setControl(talonFxDuty.withOutput(0.0));
         break;
       case SMART_MOTION:
         talon.setControl(talonFxMotionMagic.withPosition(value));
@@ -298,6 +299,15 @@ public class CanMotorWrapper implements UniversalMotor {
 
   private int configQuadCpr() {
     return quadCpr;
+  }
+
+  private void warnCurrentNotSupported() {
+    if (!warnedCurrentNoPro) {
+      DriverStation.reportWarning(
+          "Phoenix Pro not available: TalonFX/FXS current control disabled. Use Voltage or Duty Cycle.",
+          false);
+      warnedCurrentNoPro = true;
+    }
   }
 
   @Override

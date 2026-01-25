@@ -74,7 +74,7 @@ public class RobotContainer {
     modeChooser.addOption("Voltage", UniversalMotor.Mode.VOLTAGE);
     modeChooser.addOption("Velocity", UniversalMotor.Mode.VELOCITY);
     modeChooser.addOption("Position", UniversalMotor.Mode.POSITION);
-    modeChooser.addOption("Current/Torque", UniversalMotor.Mode.CURRENT);
+    modeChooser.addOption("Current (Spark/SRX only)", UniversalMotor.Mode.CURRENT);
     modeChooser.addOption("Smart Motion", UniversalMotor.Mode.SMART_MOTION);
   }
 
