@@ -1,4 +1,6 @@
-package frc.robot.motor;
+// COPY THIS FILE: Update package declaration when copying to your project
+// Example packages: frc.robot.drive, frc.robot.motor
+package frc.robot.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -24,13 +26,13 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import frc.robot.motor.UniversalMotor.Mode;
+import frc.robot.Constants.DriveConstants.MotorControllerType;
+import frc.robot.Constants.DriveConstants.MotorKind;
 
 public class CanMotorWrapper implements UniversalMotor {
   private static final int TALON_SRX_CPR = 4096;
 
-  private final MotorConfiguration config;
-  private final ControllerType controllerType;
+  private final MotorControllerType controllerType;
   private final MotorKind motorKind;
   private final double gearRatio;
   private final boolean useSensor;
@@ -47,35 +49,31 @@ public class CanMotorWrapper implements UniversalMotor {
   private final VelocityVoltage talonVelocity = new VelocityVoltage(0.0);
   private final PositionVoltage talonPosition = new PositionVoltage(0.0);
 
-  private Mode controlMode = Mode.DUTY_CYCLE;
-  private double healthScore = 100.0;
-
-  public CanMotorWrapper(MotorConfiguration config) {
-    this.config = config;
-    this.controllerType = config.controllerType;
-    this.motorKind = config.motorKind;
-    this.gearRatio = config.gearRatio;
-    this.useSensor = config.useQuadEncoder; // Using useQuadEncoder as general 'use sensor' flag?
+  public CanMotorWrapper(MotorConfig config) {
+    controllerType = config.controllerType;
+    motorKind = config.motorKind;
+    gearRatio = config.gearRatio;
+    useSensor = config.useSensor;
 
     switch (controllerType) {
       case SPARK_MAX:
-        spark = new SparkMax(config.canId, sparkMotorType());
+        spark = new SparkMax(config.id, sparkMotorType());
         configureSpark(new SparkMaxConfig(), config);
         break;
       case SPARK_FLEX:
-        spark = new SparkFlex(config.canId, sparkMotorType());
+        spark = new SparkFlex(config.id, sparkMotorType());
         configureSpark(new SparkFlexConfig(), config);
         break;
       case TALON_FX:
-        talonFx = new TalonFX(config.canId);
+        talonFx = new TalonFX(config.id);
         configureTalonFx(config);
         break;
       case TALON_FXS:
-        talonFxs = new TalonFXS(config.canId);
+        talonFxs = new TalonFXS(config.id);
         configureTalonFxs(config);
         break;
       case TALON_SRX:
-        talonSrx = new WPI_TalonSRX(config.canId);
+        talonSrx = new WPI_TalonSRX(config.id);
         talonSrx.setInverted(config.inverted);
         talonSrx.setNeutralMode(NeutralMode.Brake);
         break;
@@ -85,12 +83,12 @@ public class CanMotorWrapper implements UniversalMotor {
   }
 
   private SparkBase.MotorType sparkMotorType() {
-    return motorKind.isBrushed()
+    return motorKind == MotorKind.BRUSHED
         ? SparkBase.MotorType.kBrushed
         : SparkBase.MotorType.kBrushless;
   }
 
-  private void configureSpark(SparkBaseConfig baseConfig, MotorConfiguration config) {
+  private void configureSpark(SparkBaseConfig baseConfig, MotorConfig config) {
     sparkClosedLoop = spark.getClosedLoopController();
     sparkEncoder = spark.getEncoder();
 
@@ -98,54 +96,25 @@ public class CanMotorWrapper implements UniversalMotor {
     baseConfig.idleMode(IdleMode.kBrake);
     baseConfig.encoder.positionConversionFactor(1.0 / gearRatio);
     baseConfig.encoder.velocityConversionFactor(1.0 / gearRatio / 60.0);
-    spark.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);        
+    spark.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
-  private void configureTalonFx(MotorConfiguration config) {
+  private void configureTalonFx(MotorConfig config) {
     TalonFXConfiguration fxConfig = new TalonFXConfiguration();
     fxConfig.MotorOutput.Inverted =
-        config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;     
+        config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
     fxConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     fxConfig.Feedback.SensorToMechanismRatio = gearRatio;
     talonFx.getConfigurator().apply(fxConfig);
   }
 
-  private void configureTalonFxs(MotorConfiguration config) {
+  private void configureTalonFxs(MotorConfig config) {
     TalonFXSConfiguration fxsConfig = new TalonFXSConfiguration();
     fxsConfig.MotorOutput.Inverted =
-        config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;     
+        config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
     fxsConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     fxsConfig.ExternalFeedback.SensorToMechanismRatio = gearRatio;
     talonFxs.getConfigurator().apply(fxsConfig);
-  }
-
-  @Override
-  public void setControlMode(Mode mode) {
-    this.controlMode = mode;
-  }
-
-  @Override
-  public Mode getControlMode() {
-    return controlMode;
-  }
-
-  @Override
-  public void set(double value) {
-    switch (controlMode) {
-      case VOLTAGE:
-        setVoltage(value);
-        break;
-      case VELOCITY:
-        setVelocityRps(value);
-        break;
-      case POSITION:
-        setPositionRotations(value);
-        break;
-      case DUTY_CYCLE:
-      default:
-        setVoltage(value * 12.0);
-        break;
-    }
   }
 
   @Override
@@ -171,10 +140,14 @@ public class CanMotorWrapper implements UniversalMotor {
 
   @Override
   public void setVelocityRps(double rps) {
+    if (!useSensor) {
+      setVoltage(12.0 * Math.signum(rps));
+      return;
+    }
     switch (controllerType) {
       case SPARK_MAX:
       case SPARK_FLEX:
-        sparkClosedLoop.setSetpoint(rps, SparkBase.ControlType.kVelocity, ClosedLoopSlot.kSlot0);        
+        sparkClosedLoop.setSetpoint(rps, SparkBase.ControlType.kVelocity, ClosedLoopSlot.kSlot0);
         break;
       case TALON_FX:
         talonFx.setControl(talonVelocity.withVelocity(rps));
@@ -192,10 +165,13 @@ public class CanMotorWrapper implements UniversalMotor {
 
   @Override
   public void setPositionRotations(double rotations) {
+    if (!useSensor) {
+      return;
+    }
     switch (controllerType) {
       case SPARK_MAX:
       case SPARK_FLEX:
-        sparkClosedLoop.setSetpoint(rotations, SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0);  
+        sparkClosedLoop.setSetpoint(rotations, SparkBase.ControlType.kPosition, ClosedLoopSlot.kSlot0);
         break;
       case TALON_FX:
         talonFx.setControl(talonPosition.withPosition(rotations));
@@ -213,6 +189,9 @@ public class CanMotorWrapper implements UniversalMotor {
 
   @Override
   public double getVelocityRps() {
+    if (!useSensor) {
+      return 0.0;
+    }
     switch (controllerType) {
       case SPARK_MAX:
       case SPARK_FLEX:
@@ -230,6 +209,9 @@ public class CanMotorWrapper implements UniversalMotor {
 
   @Override
   public double getPositionRotations() {
+    if (!useSensor) {
+      return 0.0;
+    }
     switch (controllerType) {
       case SPARK_MAX:
       case SPARK_FLEX:
@@ -254,12 +236,12 @@ public class CanMotorWrapper implements UniversalMotor {
         break;
       case TALON_FX:
         TalonFXConfiguration fxConfig = new TalonFXConfiguration();
-        fxConfig.MotorOutput.NeutralMode = brake ? NeutralModeValue.Brake : NeutralModeValue.Coast;       
+        fxConfig.MotorOutput.NeutralMode = brake ? NeutralModeValue.Brake : NeutralModeValue.Coast;
         talonFx.getConfigurator().apply(fxConfig);
         break;
       case TALON_FXS:
         TalonFXSConfiguration fxsConfig = new TalonFXSConfiguration();
-        fxsConfig.MotorOutput.NeutralMode = brake ? NeutralModeValue.Brake : NeutralModeValue.Coast;      
+        fxsConfig.MotorOutput.NeutralMode = brake ? NeutralModeValue.Brake : NeutralModeValue.Coast;
         talonFxs.getConfigurator().apply(fxsConfig);
         break;
       case TALON_SRX:
@@ -291,60 +273,6 @@ public class CanMotorWrapper implements UniversalMotor {
     }
   }
 
-  @Override
-  public double getCurrent() {
-    switch (controllerType) {
-      case SPARK_MAX:
-      case SPARK_FLEX:
-        return spark.getOutputCurrent();
-      case TALON_FX:
-        return talonFx.getTorqueCurrent().getValueAsDouble();
-      case TALON_FXS:
-        return talonFxs.getTorqueCurrent().getValueAsDouble();
-      case TALON_SRX:
-        return talonSrx.getStatorCurrent();
-      default:
-        return 0.0;
-    }
-  }
-
-  @Override
-  public double getTemperature() {
-    switch (controllerType) {
-      case SPARK_MAX:
-      case SPARK_FLEX:
-        return spark.getMotorTemperature();
-      case TALON_FX:
-        return talonFx.getDeviceTemp().getValueAsDouble();
-      case TALON_FXS:
-        return talonFxs.getDeviceTemp().getValueAsDouble();
-      case TALON_SRX:
-        return talonSrx.getTemperature();
-      default:
-        return 0.0;
-    }
-  }
-
-  @Override
-  public double getHealthScore() {
-    return healthScore;
-  }
-
-  @Override
-  public void setHealthScore(double score) {
-    this.healthScore = score;
-  }
-
-  @Override
-  public String getDeviceName() {
-    return "CAN-" + config.canId;
-  }
-
-  @Override
-  public boolean isServo() {
-    return false;
-  }
-
   private double rpsToTalonSrxUnits(double rps) {
     return (rps * gearRatio) * (TALON_SRX_CPR / 10.0);
   }
@@ -354,7 +282,7 @@ public class CanMotorWrapper implements UniversalMotor {
   }
 
   private void applySparkIdleMode(boolean brake) {
-    SparkBaseConfig config = controllerType == ControllerType.SPARK_FLEX
+    SparkBaseConfig config = controllerType == MotorControllerType.SPARK_FLEX
         ? new SparkFlexConfig()
         : new SparkMaxConfig();
     config.idleMode(brake ? IdleMode.kBrake : IdleMode.kCoast);

@@ -2,9 +2,8 @@ package frc.robot.subsystems;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindingCommand;
-import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.controllers.PPLTVController;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,6 +15,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.drive.DriveIO;
@@ -123,6 +124,10 @@ public class TankDriveSubsystem extends SubsystemBase {
     gyro.reset();
   }
 
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return kinematics.toChassisSpeeds(getWheelSpeeds());
+  }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return driveIO.getWheelSpeeds();
   }
@@ -180,13 +185,7 @@ public class TankDriveSubsystem extends SubsystemBase {
           this::resetPose,
           this::getRobotRelativeSpeeds,
           (speeds, feedforwards) -> driveRobotRelative(speeds),
-          new PPHolonomicDriveController(
-              new PIDConstants(Constants.AutoConstants.TRANSLATION_P,
-                               Constants.AutoConstants.TRANSLATION_I,
-                               Constants.AutoConstants.TRANSLATION_D),
-              new PIDConstants(Constants.AutoConstants.ROTATION_P,
-                               Constants.AutoConstants.ROTATION_I,
-                               Constants.AutoConstants.ROTATION_D)),
+          new PPLTVController(Constants.AutoConstants.TRANSLATION_P),
           config,
           () -> {
             var alliance = DriverStation.getAlliance();
@@ -197,11 +196,11 @@ public class TankDriveSubsystem extends SubsystemBase {
       DriverStation.reportError("Failed to configure PathPlanner: " + e.getMessage(), e.getStackTrace());
     }
 
-    PathfindingCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
   }
 
-  private ChassisSpeeds getRobotRelativeSpeeds() {
-    return kinematics.toChassisSpeeds(getWheelSpeeds());
+  public Command runVolts(DoubleSupplier leftVolts, DoubleSupplier rightVolts) {
+    return run(() -> driveIO.setVoltages(leftVolts.getAsDouble(), rightVolts.getAsDouble()));
   }
 
   private GyroIO createGyro() {

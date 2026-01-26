@@ -1,4 +1,4 @@
-package frc.robot.subsystems.swervedrive;
+package frc.robot.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
@@ -119,13 +119,17 @@ public class Vision {
           layout,
           PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
           new Transform3d(robotToCamTranslation, robotToCamRotation));
-      poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+      // Strategy set in constructor now
     }
 
     public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
       if (poseEstimator == null) {
         return Optional.empty();
       }
+      // Using update() which is deprecated but works for now.
+      // Replacement is dependent on strategy which is constructor arg.
+      // If I change constructor, I change this.
+      // For now, removing @SuppressWarnings and leaving warnings.
       Optional<EstimatedRobotPose> poseEst = poseEstimator.update(camera.getLatestResult());
       poseEst.ifPresent(this::updateEstimationStdDevs);
       return poseEst;
@@ -165,4 +169,3 @@ public class Vision {
     }
   }
 }
-

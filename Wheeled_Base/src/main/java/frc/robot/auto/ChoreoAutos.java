@@ -12,6 +12,10 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * Choreo auto integration via reflection to keep base code flexible.
+ * Update method names here if Choreo API changes in future seasons.
+ */
 public final class ChoreoAutos {
   private ChoreoAutos() {}
 

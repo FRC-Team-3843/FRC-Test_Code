@@ -33,17 +33,17 @@ public class RobotContainer {
       tab.add("Enable Output (Hold)", false).withWidget(BuiltInWidgets.kToggleButton).getEntry();
   private final GenericEntry setpointEntry =
       tab.add("Setpoint", 0.0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-  private final GenericEntry canIdEntry = tab.add("CAN ID", Constants.DEFAULT_CAN_ID).getEntry();
+  private final GenericEntry canIdEntry = tab.add("CAN ID", Constants.MotorConstants.DEFAULT_CAN_ID).getEntry();
   private final GenericEntry pwmChannelEntry =
-      tab.add("PWM Channel", Constants.DEFAULT_PWM_CHANNEL).getEntry();
+      tab.add("PWM Channel", Constants.MotorConstants.DEFAULT_PWM_CHANNEL).getEntry();
   private final GenericEntry gearRatioEntry =
-      tab.add("Gear Ratio", Constants.DEFAULT_GEAR_RATIO).getEntry();
-  private final GenericEntry quadCprEntry = tab.add("Quad CPR", Constants.DEFAULT_QUAD_CPR).getEntry();
+      tab.add("Gear Ratio", Constants.MotorConstants.DEFAULT_GEAR_RATIO).getEntry();
+  private final GenericEntry quadCprEntry = tab.add("Quad CPR", Constants.MotorConstants.DEFAULT_QUAD_CPR).getEntry();
   private final GenericEntry invertedEntry = tab.add("Invert", false).getEntry();
   private final GenericEntry applyConfigEntry =
       tab.add("Apply Config", false).withWidget(BuiltInWidgets.kToggleButton).getEntry();
 
-  private final CommandXboxController driver = new CommandXboxController(Constants.DRIVER_CONTROLLER_PORT);
+  private final CommandXboxController driver = new CommandXboxController(Constants.OperatorConstants.DRIVER_CONTROLLER_PORT);
 
   private final MotorTestSubsystem subsystem = new MotorTestSubsystem(defaultConfiguration());
 
@@ -116,10 +116,10 @@ public class RobotContainer {
 
   private MotorConfiguration defaultConfiguration() {
     return MotorConfiguration.builder(ControllerType.SPARK_MAX, MotorKind.CIM)
-        .canId(Constants.DEFAULT_CAN_ID)
-        .pwmChannel(Constants.DEFAULT_PWM_CHANNEL)
-        .gearRatio(Constants.DEFAULT_GEAR_RATIO)
-        .quadCpr(Constants.DEFAULT_QUAD_CPR)
+        .canId(Constants.MotorConstants.DEFAULT_CAN_ID)
+        .pwmChannel(Constants.MotorConstants.DEFAULT_PWM_CHANNEL)
+        .gearRatio(Constants.MotorConstants.DEFAULT_GEAR_RATIO)
+        .quadCpr(Constants.MotorConstants.DEFAULT_QUAD_CPR)
         .build();
   }
 
@@ -129,10 +129,10 @@ public class RobotContainer {
     MotorKind motorKind = motorChooser.getSelected() != null ? motorChooser.getSelected() : MotorKind.CIM;
     MotorConfiguration config =
         MotorConfiguration.builder(controllerType, motorKind)
-            .canId((int) canIdEntry.getInteger(Constants.DEFAULT_CAN_ID))
-            .pwmChannel((int) pwmChannelEntry.getInteger(Constants.DEFAULT_PWM_CHANNEL))
-            .gearRatio(gearRatioEntry.getDouble(Constants.DEFAULT_GEAR_RATIO))
-            .quadCpr((int) quadCprEntry.getInteger(Constants.DEFAULT_QUAD_CPR))
+            .canId((int) canIdEntry.getInteger(Constants.MotorConstants.DEFAULT_CAN_ID))
+            .pwmChannel((int) pwmChannelEntry.getInteger(Constants.MotorConstants.DEFAULT_PWM_CHANNEL))
+            .gearRatio(gearRatioEntry.getDouble(Constants.MotorConstants.DEFAULT_GEAR_RATIO))
+            .quadCpr((int) quadCprEntry.getInteger(Constants.MotorConstants.DEFAULT_QUAD_CPR))
             .inverted(invertedEntry.getBoolean(false))
             .useQuadEncoder(controllerType == ControllerType.TALON_SRX)
             .build();

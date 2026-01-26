@@ -17,10 +17,12 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
+import frc.robot.vision.Vision;
 import java.io.File;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -39,7 +41,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final Vision vision;
 
   public SwerveSubsystem(File directory) {
-    if (Constants.LoggingConstants.ENABLE_SWERVE_TELEMETRY) {
+    if (Constants.LoggingConstants.ENABLE_DRIVE_TELEMETRY) {
       SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     }
 
@@ -104,7 +106,7 @@ public class SwerveSubsystem extends SubsystemBase {
       DriverStation.reportError("Failed to configure PathPlanner: " + e.getMessage(), e.getStackTrace());
     }
 
-    PathfindingCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
   }
 
   public Command lockCommand() {

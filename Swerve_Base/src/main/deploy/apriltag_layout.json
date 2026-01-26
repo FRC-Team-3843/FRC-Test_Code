@@ -1,0 +1,14 @@
+{
+  "_comment": "AprilTag field layout configuration",
+  "_instructions": [
+    "This file defines the positions of AprilTags on the field for vision-based pose estimation.",
+    "For official FRC field layouts, download from: https://github.com/wpilibsuite/allwpilib/tree/main/apriltag/src/main/native/resources/edu/wpi/first/apriltag",
+    "Or use the WPILib AprilTag layout editor: https://docs.wpilib.org/en/stable/docs/software/vision-processing/apriltag/apriltag-intro.html",
+    "Place the appropriate field layout file (e.g., 2024-crescendo.json) in this deploy directory and update Vision.java constant"
+  ],
+  "field": {
+    "length": 16.54,
+    "width": 8.21
+  },
+  "tags": []
+}

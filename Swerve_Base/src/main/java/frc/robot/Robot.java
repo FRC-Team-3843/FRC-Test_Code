@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-  private Command autonomousCommand;
-  private final RobotContainer robotContainer;
-  private final Timer disabledTimer = new Timer();
+  private Command m_autonomousCommand;
+  private final RobotContainer m_robotContainer;
+  private final Timer m_disabledTimer = new Timer();
 
   public Robot() {
     if (Constants.LoggingConstants.ENABLE_LOGGING) {
@@ -18,7 +18,7 @@ public class Robot extends TimedRobot {
       DriverStation.startDataLog(DataLogManager.getLog());
     }
 
-    robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer();
   }
 
   @Override
@@ -28,32 +28,32 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    disabledTimer.reset();
-    disabledTimer.start();
+    m_disabledTimer.reset();
+    m_disabledTimer.start();
   }
 
   @Override
   public void disabledPeriodic() {
-    if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME)) {
-      robotContainer.setMotorBrake(false);
-      disabledTimer.stop();
+    if (m_disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME)) {
+      m_robotContainer.setMotorBrake(false);
+      m_disabledTimer.stop();
     }
   }
 
   @Override
   public void autonomousInit() {
-    robotContainer.setMotorBrake(true);
-    autonomousCommand = robotContainer.getAutonomousCommand();
-    if (autonomousCommand != null) {
-      CommandScheduler.getInstance().schedule(autonomousCommand);
+    m_robotContainer.setMotorBrake(true);
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if (m_autonomousCommand != null) {
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
 
   @Override
   public void teleopInit() {
-    robotContainer.setMotorBrake(true);
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
+    m_robotContainer.setMotorBrake(true);
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
     }
   }
 

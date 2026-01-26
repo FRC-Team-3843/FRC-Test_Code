@@ -5,7 +5,6 @@ public final class Constants {
 
   public static final class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
-    public static final int OPERATOR_CONTROLLER_PORT = 1;
     public static final double DEADBAND = 0.12;
   }
 
@@ -55,8 +54,8 @@ public final class Constants {
     // Enable verbose logging for base chassis testing. Trim for comp robot use.
     public static final boolean ENABLE_LOGGING = true;
 
-    // YAGSL telemetry verbosity. HIGH is very chatty.
-    public static final boolean ENABLE_SWERVE_TELEMETRY = true;
+    // Drive telemetry verbosity for testing. Disable for competition use.
+    public static final boolean ENABLE_DRIVE_TELEMETRY = true;
   }
 
   public static final class DrivebaseConstants {

@@ -17,8 +17,6 @@ import swervelib.SwerveInputStream;
 public class RobotContainer {
   private final CommandXboxController driverXbox =
       new CommandXboxController(Constants.OperatorConstants.DRIVER_CONTROLLER_PORT);
-  private final CommandXboxController operatorXbox =
-      new CommandXboxController(Constants.OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
   private final SwerveSubsystem drivebase =
       new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));

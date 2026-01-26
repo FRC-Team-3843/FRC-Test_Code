@@ -2,97 +2,60 @@ package frc.robot.motor;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.motor.UniversalMotor.Mode;
 
 public class PwmServoWrapper implements UniversalMotor {
-  private final MotorKind motorKind;
   private final Servo servo;
+  private final MotorKind motorKind;
   private Mode controlMode = Mode.POSITION;
-  private double healthScore = 0.0;
-
-  private double lastPositionDeg = 0.0;
-  private double lastTimestamp = Timer.getFPGATimestamp();
-  private double velocityDegPerSec = 0.0;
+  private double healthScore = 100.0;
 
   public PwmServoWrapper(MotorConfiguration config) {
-    motorKind = config.motorKind;
-    servo = new Servo(config.pwmChannel);
+    this.motorKind = config.motorKind;
+    this.servo = new Servo(config.pwmChannel);
   }
 
   @Override
-  public void setControlMode(Mode mode) {
-    controlMode = mode;
-  }
-
+  public void setControlMode(Mode mode) { this.controlMode = mode; }
   @Override
-  public Mode getControlMode() {
-    return controlMode;
-  }
-
+  public Mode getControlMode() { return controlMode; }
+  
   @Override
   public void set(double value) {
     if (motorKind == MotorKind.CONTINUOUS_SERVO) {
-      double speed = clamp(value, -1.0, 1.0);
-      servo.setSpeed(speed);
+      servo.setSpeed(Math.max(-1, Math.min(1, value)));
     } else {
-      double angle = clamp(value, 0.0, 180.0);
-      servo.setAngle(angle);
-    }
-    updateVelocityEstimate();
-  }
-
-  @Override
-  public double getVelocity() {
-    updateVelocityEstimate();
-    return velocityDegPerSec;
-  }
-
-  @Override
-  public double getPosition() {
-    return servo.getAngle();
-  }
-
-  @Override
-  public double getCurrent() {
-    return Double.NaN;
-  }
-
-  @Override
-  public double getTemperature() {
-    return Double.NaN;
-  }
-
-  @Override
-  public double getHealthScore() {
-    return healthScore;
-  }
-
-  @Override
-  public void setHealthScore(double score) {
-    healthScore = score;
-  }
-
-  @Override
-  public String getDeviceName() {
-    return "PWM-Servo";
-  }
-
-  @Override
-  public boolean isServo() {
-    return true;
-  }
-
-  private void updateVelocityEstimate() {
-    double now = Timer.getFPGATimestamp();
-    double position = servo.getAngle();
-    double dt = now - lastTimestamp;
-    if (dt > 1e-3) {
-      velocityDegPerSec = (position - lastPositionDeg) / dt;
-      lastPositionDeg = position;
-      lastTimestamp = now;
+      servo.setAngle(Math.max(0, Math.min(180, value)));
     }
   }
 
-  private static double clamp(double value, double min, double max) {
-    return Math.max(min, Math.min(max, value));
-  }
+  @Override
+  public void setVoltage(double volts) { set(volts / 12.0); }
+  @Override
+  public void setVelocityRps(double rps) { set(rps); }
+  @Override
+  public void setPositionRotations(double rotations) { set(rotations * 360); }
+  
+  @Override
+  public double getVelocityRps() { return 0; }
+  @Override
+  public double getPositionRotations() { return servo.getAngle() / 360.0; }
+  
+  @Override
+  public void setBrake(boolean brake) {}
+  @Override
+  public void stop() { servo.setDisabled(); }
+  
+  @Override
+  public double getCurrent() { return 0; }
+  @Override
+  public double getTemperature() { return 0; }
+  @Override
+  public double getHealthScore() { return healthScore; }
+  @Override
+  public void setHealthScore(double score) { this.healthScore = score; }
+  @Override
+  public String getDeviceName() { return "PWM-Servo"; }
+  @Override
+  public boolean isServo() { return true; }
 }
