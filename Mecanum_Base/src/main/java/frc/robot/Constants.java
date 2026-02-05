@@ -50,14 +50,7 @@ public final class Constants {
     public static final boolean USE_CLOSED_LOOP = false;
     public static final boolean FIELD_CENTRIC_DEFAULT = true;
 
-    public static final MotorConfig FRONT_LEFT = new MotorConfig(
-        MotorControllerType.SPARK_MAX, MotorKind.BRUSHLESS, 1, true, DRIVE_GEAR_RATIO, USE_WHEEL_ENCODERS);
-    public static final MotorConfig REAR_LEFT = new MotorConfig(
-        MotorControllerType.SPARK_MAX, MotorKind.BRUSHLESS, 2, true, DRIVE_GEAR_RATIO, USE_WHEEL_ENCODERS);
-    public static final MotorConfig FRONT_RIGHT = new MotorConfig(
-        MotorControllerType.SPARK_MAX, MotorKind.BRUSHLESS, 3, false, DRIVE_GEAR_RATIO, USE_WHEEL_ENCODERS);
-    public static final MotorConfig REAR_RIGHT = new MotorConfig(
-        MotorControllerType.SPARK_MAX, MotorKind.BRUSHLESS, 4, false, DRIVE_GEAR_RATIO, USE_WHEEL_ENCODERS);
+    public static final String MOTOR_CONFIG_FILE = "motor-config.json";
   }
 
   public static final class AutoConstants {

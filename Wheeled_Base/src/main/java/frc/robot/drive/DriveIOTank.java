@@ -2,6 +2,7 @@ package frc.robot.drive;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Constants;
+import java.util.Map;
 
 public class DriveIOTank implements DriveIO {
   private final MotorGroup left;
@@ -12,8 +13,19 @@ public class DriveIOTank implements DriveIO {
   private final boolean useClosedLoop;
 
   public DriveIOTank() {
-    left = new MotorGroup(Constants.DriveConstants.LEFT_MOTORS);
-    right = new MotorGroup(Constants.DriveConstants.RIGHT_MOTORS);
+    // Load motor configuration from JSON
+    Map<String, MotorConfig> motorConfigs = MotorConfigLoader.loadConfigs("motor-config.json");
+
+    // Create motor groups from JSON config
+    MotorConfig leftConfig = motorConfigs.get("leftLeader");
+    MotorConfig rightConfig = motorConfigs.get("rightLeader");
+
+    if (leftConfig == null || rightConfig == null) {
+      throw new RuntimeException("Motor configuration not found in motor-config.json");
+    }
+
+    left = new MotorGroup(new MotorConfig[] { leftConfig });
+    right = new MotorGroup(new MotorConfig[] { rightConfig });
 
     wheelCircumference = Constants.DriveConstants.WHEEL_CIRCUMFERENCE_METERS;
     useSensors = Constants.DriveConstants.USE_WHEEL_ENCODERS;

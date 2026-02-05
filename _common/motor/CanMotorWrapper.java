@@ -75,7 +75,33 @@ public class CanMotorWrapper implements UniversalMotor {
       case TALON_SRX:
         talonSrx = new WPI_TalonSRX(config.id);
         talonSrx.setInverted(config.inverted);
-        talonSrx.setNeutralMode(NeutralMode.Brake);
+
+        // Apply brake mode if specified, otherwise default to brake
+        NeutralMode srxNeutralMode = NeutralMode.Brake;
+        if (config.brakeMode != null) {
+          srxNeutralMode = config.brakeMode ? NeutralMode.Brake : NeutralMode.Coast;
+        }
+        talonSrx.setNeutralMode(srxNeutralMode);
+
+        // Apply current limit if specified
+        if (config.currentLimitAmps != null) {
+          talonSrx.configContinuousCurrentLimit(config.currentLimitAmps);
+          talonSrx.enableCurrentLimit(true);
+        }
+
+        // Apply PID gains if specified (slot 0)
+        if (config.kP != null) {
+          talonSrx.config_kP(0, config.kP);
+        }
+        if (config.kI != null) {
+          talonSrx.config_kI(0, config.kI);
+        }
+        if (config.kD != null) {
+          talonSrx.config_kD(0, config.kD);
+        }
+        if (config.kF != null) {
+          talonSrx.config_kF(0, config.kF);
+        }
         break;
       default:
         throw new IllegalArgumentException("Unsupported CAN motor type: " + controllerType);
@@ -93,9 +119,36 @@ public class CanMotorWrapper implements UniversalMotor {
     sparkEncoder = spark.getEncoder();
 
     baseConfig.inverted(config.inverted);
-    baseConfig.idleMode(IdleMode.kBrake);
+
+    // Apply brake mode if specified, otherwise default to brake
+    IdleMode idleMode = IdleMode.kBrake;
+    if (config.brakeMode != null) {
+      idleMode = config.brakeMode ? IdleMode.kBrake : IdleMode.kCoast;
+    }
+    baseConfig.idleMode(idleMode);
+
+    // Apply current limit if specified
+    if (config.currentLimitAmps != null) {
+      baseConfig.smartCurrentLimit(config.currentLimitAmps);
+    }
+
     baseConfig.encoder.positionConversionFactor(1.0 / gearRatio);
     baseConfig.encoder.velocityConversionFactor(1.0 / gearRatio / 60.0);
+
+    // Apply PID gains if specified
+    if (config.kP != null) {
+      baseConfig.closedLoop.p(config.kP, ClosedLoopSlot.kSlot0);
+    }
+    if (config.kI != null) {
+      baseConfig.closedLoop.i(config.kI, ClosedLoopSlot.kSlot0);
+    }
+    if (config.kD != null) {
+      baseConfig.closedLoop.d(config.kD, ClosedLoopSlot.kSlot0);
+    }
+    if (config.kF != null) {
+      baseConfig.closedLoop.velocityFF(config.kF, ClosedLoopSlot.kSlot0);
+    }
+
     spark.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
@@ -103,8 +156,36 @@ public class CanMotorWrapper implements UniversalMotor {
     TalonFXConfiguration fxConfig = new TalonFXConfiguration();
     fxConfig.MotorOutput.Inverted =
         config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-    fxConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+    // Apply brake mode if specified, otherwise default to brake
+    NeutralModeValue neutralMode = NeutralModeValue.Brake;
+    if (config.brakeMode != null) {
+      neutralMode = config.brakeMode ? NeutralModeValue.Brake : NeutralModeValue.Coast;
+    }
+    fxConfig.MotorOutput.NeutralMode = neutralMode;
+
+    // Apply current limit if specified
+    if (config.currentLimitAmps != null) {
+      fxConfig.CurrentLimits.StatorCurrentLimit = config.currentLimitAmps;
+      fxConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    }
+
     fxConfig.Feedback.SensorToMechanismRatio = gearRatio;
+
+    // Apply PID gains if specified
+    if (config.kP != null) {
+      fxConfig.Slot0.kP = config.kP;
+    }
+    if (config.kI != null) {
+      fxConfig.Slot0.kI = config.kI;
+    }
+    if (config.kD != null) {
+      fxConfig.Slot0.kD = config.kD;
+    }
+    if (config.kF != null) {
+      fxConfig.Slot0.kV = config.kF;
+    }
+
     talonFx.getConfigurator().apply(fxConfig);
   }
 
@@ -112,8 +193,36 @@ public class CanMotorWrapper implements UniversalMotor {
     TalonFXSConfiguration fxsConfig = new TalonFXSConfiguration();
     fxsConfig.MotorOutput.Inverted =
         config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-    fxsConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+    // Apply brake mode if specified, otherwise default to brake
+    NeutralModeValue neutralMode = NeutralModeValue.Brake;
+    if (config.brakeMode != null) {
+      neutralMode = config.brakeMode ? NeutralModeValue.Brake : NeutralModeValue.Coast;
+    }
+    fxsConfig.MotorOutput.NeutralMode = neutralMode;
+
+    // Apply current limit if specified
+    if (config.currentLimitAmps != null) {
+      fxsConfig.CurrentLimits.StatorCurrentLimit = config.currentLimitAmps;
+      fxsConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    }
+
     fxsConfig.ExternalFeedback.SensorToMechanismRatio = gearRatio;
+
+    // Apply PID gains if specified
+    if (config.kP != null) {
+      fxsConfig.Slot0.kP = config.kP;
+    }
+    if (config.kI != null) {
+      fxsConfig.Slot0.kI = config.kI;
+    }
+    if (config.kD != null) {
+      fxsConfig.Slot0.kD = config.kD;
+    }
+    if (config.kF != null) {
+      fxsConfig.Slot0.kV = config.kF;
+    }
+
     talonFxs.getConfigurator().apply(fxsConfig);
   }
 

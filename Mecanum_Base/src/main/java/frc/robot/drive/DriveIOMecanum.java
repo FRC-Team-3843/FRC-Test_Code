@@ -14,10 +14,12 @@ public class DriveIOMecanum implements DriveIO {
   private final boolean useClosedLoop;
 
   public DriveIOMecanum() {
-    frontLeft = MotorFactory.createMotor(Constants.DriveConstants.FRONT_LEFT);
-    rearLeft = MotorFactory.createMotor(Constants.DriveConstants.REAR_LEFT);
-    frontRight = MotorFactory.createMotor(Constants.DriveConstants.FRONT_RIGHT);
-    rearRight = MotorFactory.createMotor(Constants.DriveConstants.REAR_RIGHT);
+    java.util.Map<String, MotorConfig> configs = MotorConfigLoader.loadConfigs(Constants.DriveConstants.MOTOR_CONFIG_FILE);
+
+    frontLeft = MotorFactory.createMotor(configs.get("frontLeft"));
+    rearLeft = MotorFactory.createMotor(configs.get("rearLeft"));
+    frontRight = MotorFactory.createMotor(configs.get("frontRight"));
+    rearRight = MotorFactory.createMotor(configs.get("rearRight"));
 
     wheelCircumference = Constants.DriveConstants.WHEEL_CIRCUMFERENCE_METERS;
     useSensors = Constants.DriveConstants.USE_WHEEL_ENCODERS;

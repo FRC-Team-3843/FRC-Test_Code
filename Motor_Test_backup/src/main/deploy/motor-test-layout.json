@@ -1,0 +1,305 @@
+{
+  "version": 1.0,
+  "grid_size": 128,
+  "tabs": [
+    {
+      "name": "Motor Test",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "Controller Type",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Controller Type",
+              "period": 0.033,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Motor Type",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Motor Type",
+              "period": 0.033,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Control Mode",
+            "x": 512.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Control Mode",
+              "period": 0.033,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "CAN ID",
+            "x": 0.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/CAN ID",
+              "period": 0.033,
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "PWM Channel",
+            "x": 128.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/PWM Channel",
+              "period": 0.033,
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Gear Ratio",
+            "x": 256.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Gear Ratio",
+              "period": 0.033,
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Quad CPR",
+            "x": 384.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Quad CPR",
+              "period": 0.033,
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Invert",
+            "x": 512.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Toggle Button",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Invert",
+              "period": 0.033
+            }
+          },
+          {
+            "title": "Apply Config",
+            "x": 640.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Toggle Button",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Apply Config",
+              "period": 0.033
+            }
+          },
+          {
+            "title": "Enable Output",
+            "x": 0.0,
+            "y": 256.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Toggle Button",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Enable Output (Hold)",
+              "period": 0.033
+            }
+          },
+          {
+            "title": "Setpoint",
+            "x": 128.0,
+            "y": 256.0,
+            "width": 384.0,
+            "height": 128.0,
+            "type": "Number Slider",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Setpoint",
+              "period": 0.033,
+              "min_value": -1.0,
+              "max_value": 1.0,
+              "divisions": 20,
+              "update_continuously": true
+            }
+          },
+          {
+            "title": "Velocity RPS",
+            "x": 0.0,
+            "y": 384.0,
+            "width": 384.0,
+            "height": 256.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Velocity RPS",
+              "period": 0.033,
+              "time_displayed": 5.0,
+              "color": 4280391411,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "Current A",
+            "x": 384.0,
+            "y": 384.0,
+            "width": 384.0,
+            "height": 256.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Current A",
+              "period": 0.033,
+              "time_displayed": 5.0,
+              "color": 4294940672,
+              "line_width": 2.0
+            }
+          },
+          {
+            "title": "Health OK",
+            "x": 0.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Health OK",
+              "period": 0.033,
+              "true_color": 4283215696,
+              "false_color": 4294198070
+            }
+          },
+          {
+            "title": "Health Score",
+            "x": 128.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Health Score",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Grade",
+            "x": 256.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Grade",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Temp C",
+            "x": 384.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Temp C",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Position",
+            "x": 512.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Position",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Post Test Peak Temp",
+            "x": 0.0,
+            "y": 768.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Post Test Peak Temp",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Breakaway V",
+            "x": 128.0,
+            "y": 768.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Breakaway V",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Resistance Ohms",
+            "x": 256.0,
+            "y": 768.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Resistance Ohms",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Kv Rating",
+            "x": 384.0,
+            "y": 768.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Shuffleboard/Motor Test/Kv Rating",
+              "period": 0.033,
+              "show_submit_button": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

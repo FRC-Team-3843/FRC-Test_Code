@@ -1,5 +1,9 @@
 # FRC-Test_Code Common Classes
 
+> **Documentation Guide:**
+> - **This file (README):** Common classes purpose and usage
+> - **STANDARDS.md:** Coding standards (see C:\GitHub\FRC-Test_Code\STANDARDS.md)
+
 ## Purpose
 
 This folder contains **canonical implementations** of shared code that is **copied** (not imported) into test projects.

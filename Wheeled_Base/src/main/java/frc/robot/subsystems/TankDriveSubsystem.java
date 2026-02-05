@@ -207,6 +207,19 @@ public class TankDriveSubsystem extends SubsystemBase {
     if (!Constants.DriveConstants.USE_GYRO) {
       return new GyroIONone();
     }
+
+    // Try to load gyro configuration from JSON
+    try {
+      frc.robot.drive.GyroConfig config = frc.robot.drive.GyroConfigLoader.loadFromFile("motor-config.json");
+      if (config != null) {
+        return frc.robot.drive.GyroConfigLoader.createGyroIO(config);
+      }
+    } catch (Exception e) {
+      System.err.println("Failed to load gyro config from JSON, falling back to Constants");
+      e.printStackTrace();
+    }
+
+    // Fallback to Constants if JSON loading fails
     switch (Constants.DriveConstants.GYRO_TYPE) {
       case ADXRS450:
         return new GyroIOAdxrs450();

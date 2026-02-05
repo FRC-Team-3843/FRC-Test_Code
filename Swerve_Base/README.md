@@ -2,6 +2,11 @@
 
 Base swerve chassis project built on WPILib 2026 + YAGSL.
 
+> **Documentation Guide:**
+> - **This file (README):** Project overview and quick start
+> - **NOTES.md:** Setup procedures, tuning values, troubleshooting
+> - **STANDARDS.md:** Coding standards (see C:\GitHub\FRC-Test_Code\STANDARDS.md)
+
 ## What This Project Does
 - Loads a YAGSL swerve config from `src/main/deploy/swerve`.
 - Provides field-relative swerve driving with Xbox controller bindings.

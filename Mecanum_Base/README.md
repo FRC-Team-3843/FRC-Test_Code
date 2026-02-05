@@ -2,6 +2,11 @@
 
 Base mecanum chassis project built on WPILib 2026.
 
+> **Documentation Guide:**
+> - **This file (README):** Project overview and quick start
+> - **NOTES.md:** Setup procedures, tuning values, troubleshooting
+> - **STANDARDS.md:** Coding standards (see C:\GitHub\FRC-Test_Code\STANDARDS.md)
+
 ## What This Project Does
 - Provides configurable mecanum drive with field-centric option.
 - Supports multiple motor controllers (CAN and PWM) through a common IO layer.

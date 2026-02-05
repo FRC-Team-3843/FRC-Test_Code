@@ -1,4 +1,15 @@
-# FRC-Test_Code Standards
+# FRC-Test_Code Technical Standards
+
+> **Extends FRC-2026 standards** with test-specific rules.
+> See `C:\GitHub\FRC-2026\STANDARDS.md` for common standards.
+>
+> **Documentation Guide:**
+> - **This file (STANDARDS):** Test-specific coding rules and patterns
+> - **README.md:** Repository overview
+> - **NOTES.md:** Cross-project setup notes
+> - **FRC-2026\STANDARDS.md:** Complete coding standards and API reference
+
+---
 
 ## Common Standards Reference
 
@@ -14,6 +25,7 @@ This includes:
 - Autonomous standards
 - Controller bindings
 - Brake management pattern
+- Dashboard standards (Elastic Dashboard default)
 
 **This document contains only test-specific standards** that differ from or extend the common standards.
 
@@ -87,6 +99,20 @@ Test projects follow the same Command-Based Framework as competition code (see F
 - **Verbose telemetry** - Enable extensive logging for validation
 - **Simplified commands** - Use command factories for test sequences
 - **Enable flags** - All features (vision, logging) controlled by Constants flags
+
+### JSON Configuration Pattern
+
+To allow rapid tuning without code recompilation, test projects use JSON files in `src/main/deploy` for hardware configuration:
+
+1.  **Config Files**: Located in `src/main/deploy` (e.g., `motor-config.json`).
+2.  **Loading**: `MotorConfigLoader` reads these at runtime.
+3.  **Usage**: `DriveIO` implementations load configs instead of hardcoding constants.
+
+```java
+// Example usage in DriveIO constructor
+var configs = MotorConfigLoader.loadConfigs("motor-config.json");
+frontLeft = MotorFactory.createMotor(configs.get("frontLeft"));
+```
 
 ---
 

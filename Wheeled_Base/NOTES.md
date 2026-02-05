@@ -1,4 +1,9 @@
-# Notes - Wheeled_Base
+# Working Notes - Wheeled_Base
+
+> **Documentation Guide:**
+> - **This file (NOTES):** Setup, tuning, troubleshooting, TODOs
+> - **README.md:** Project overview and quick start
+> - **STANDARDS.md:** Coding standards (see C:\GitHub\FRC-Test_Code\STANDARDS.md)
 
 ## Before Deploying
 - Confirm motor controller types and IDs in `Constants.DriveConstants`.

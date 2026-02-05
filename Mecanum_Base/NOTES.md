@@ -1,9 +1,13 @@
-# Notes - Mecanum_Base
+# Working Notes - Mecanum_Base
+
+> **Documentation Guide:**
+> - **This file (NOTES):** Setup, tuning, troubleshooting, TODOs
+> - **README.md:** Project overview and quick start
+> - **STANDARDS.md:** Coding standards (see C:\GitHub\FRC-Test_Code\STANDARDS.md)
 
 ## Before Deploying
-- Confirm motor controller types and IDs in `Constants.DriveConstants`.
-- Verify inversion on each wheel.
-- Update wheelbase, track width, and wheel diameter.
+- **Configure Motors:** Edit `src/main/deploy/motor-config.json` for IDs, types, and inversions.
+- Update wheelbase, track width, and wheel diameter in `Constants.java`.
 - Set `USE_WHEEL_ENCODERS` to false for brushed motors without sensors.
 - Choose the correct gyro or disable it if not present.
 

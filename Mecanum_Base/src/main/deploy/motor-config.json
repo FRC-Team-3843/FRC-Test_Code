@@ -1,0 +1,47 @@
+{
+  "gyro": {
+    "type": "ADIS16470",
+    "canId": 0,
+    "inverted": false
+  },
+  "frontLeft": {
+    "controllerType": "SPARK_MAX",
+    "motorKind": "BRUSHLESS",
+    "id": 1,
+    "inverted": true,
+    "gearRatio": 10.71,
+    "useSensor": true,
+    "brakeMode": true,
+    "currentLimitAmps": 40
+  },
+  "rearLeft": {
+    "controllerType": "SPARK_MAX",
+    "motorKind": "BRUSHLESS",
+    "id": 2,
+    "inverted": true,
+    "gearRatio": 10.71,
+    "useSensor": true,
+    "brakeMode": true,
+    "currentLimitAmps": 40
+  },
+  "frontRight": {
+    "controllerType": "SPARK_MAX",
+    "motorKind": "BRUSHLESS",
+    "id": 3,
+    "inverted": false,
+    "gearRatio": 10.71,
+    "useSensor": true,
+    "brakeMode": true,
+    "currentLimitAmps": 40
+  },
+  "rearRight": {
+    "controllerType": "SPARK_MAX",
+    "motorKind": "BRUSHLESS",
+    "id": 4,
+    "inverted": false,
+    "gearRatio": 10.71,
+    "useSensor": true,
+    "brakeMode": true,
+    "currentLimitAmps": 40
+  }
+}

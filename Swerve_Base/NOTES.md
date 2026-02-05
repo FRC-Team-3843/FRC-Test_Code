@@ -1,4 +1,9 @@
-﻿# Notes - Swerve_Base
+﻿# Working Notes - Swerve_Base
+
+> **Documentation Guide:**
+> - **This file (NOTES):** Setup, tuning, troubleshooting, TODOs
+> - **README.md:** Project overview and quick start
+> - **STANDARDS.md:** Coding standards (see C:\GitHub\FRC-Test_Code\STANDARDS.md)
 
 ## Before Deploying
 - Verify all CAN IDs in `src/main/deploy/swerve/modules/*.json`.

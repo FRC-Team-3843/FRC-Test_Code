@@ -1,0 +1,78 @@
+{
+  "title": "Shooter Test",
+  "version": "1.0",
+  "type": "Elastic",
+  "layout": {
+    "type": "Grid",
+    "children": [
+      {
+        "title": "Preshooter PID",
+        "type": "Group",
+        "children": [
+          {"title": "Pre kP", "type": "Number", "key": "/Shuffleboard/Shooter Test/Pre kP"},
+          {"title": "Pre kI", "type": "Number", "key": "/Shuffleboard/Shooter Test/Pre kI"},
+          {"title": "Pre kD", "type": "Number", "key": "/Shuffleboard/Shooter Test/Pre kD"},
+          {"title": "Pre kV", "type": "Number", "key": "/Shuffleboard/Shooter Test/Pre kV"},
+          {"title": "Pre kS", "type": "Number", "key": "/Shuffleboard/Shooter Test/Pre kS"}
+        ]
+      },
+      {
+        "title": "Main Shooter PID",
+        "type": "Group",
+        "children": [
+          {"title": "Main kP", "type": "Number", "key": "/Shuffleboard/Shooter Test/Main kP"},
+          {"title": "Main kI", "type": "Number", "key": "/Shuffleboard/Shooter Test/Main kI"},
+          {"title": "Main kD", "type": "Number", "key": "/Shuffleboard/Shooter Test/Main kD"},
+          {"title": "Main kV", "type": "Number", "key": "/Shuffleboard/Shooter Test/Main kV"},
+          {"title": "Main kS", "type": "Number", "key": "/Shuffleboard/Shooter Test/Main kS"}
+        ]
+      },
+      {
+        "title": "Apply PID",
+        "type": "Boolean",
+        "key": "/Shuffleboard/Shooter Test/Apply PID"
+      },
+      {
+        "title": "Setpoints",
+        "type": "Group",
+        "children": [
+          {"title": "Pre SP1 (RPM)", "type": "Number", "key": "/Shuffleboard/Shooter Test/Pre SP1 (RPM)"},
+          {"title": "Pre SP2 (RPM)", "type": "Number", "key": "/Shuffleboard/Shooter Test/Pre SP2 (RPM)"},
+          {"title": "Main SP1 (RPM)", "type": "Number", "key": "/Shuffleboard/Shooter Test/Main SP1 (RPM)"},
+          {"title": "Main SP2 (RPM)", "type": "Number", "key": "/Shuffleboard/Shooter Test/Main SP2 (RPM)"}
+        ]
+      },
+      {
+        "title": "Servo Positions",
+        "type": "Group",
+        "children": [
+          {"title": "Servo Pos 1", "type": "Number", "key": "/Shuffleboard/Shooter Test/Servo Pos 1"},
+          {"title": "Servo Pos 2", "type": "Number", "key": "/Shuffleboard/Shooter Test/Servo Pos 2"}
+        ]
+      },
+      {
+        "title": "Preshooter RPM",
+        "type": "Graph",
+        "key": "/Shuffleboard/Shooter Test/Preshooter RPM"
+      },
+      {
+        "title": "Main Shooter RPM",
+        "type": "Graph",
+        "key": "/Shuffleboard/Shooter Test/Main Shooter RPM"
+      },
+      {
+        "title": "At Setpoint Indicators",
+        "type": "Group",
+        "children": [
+          {"title": "Pre At SP?", "type": "Boolean", "key": "/Shuffleboard/Shooter Test/Pre At SP?"},
+          {"title": "Main At SP?", "type": "Boolean", "key": "/Shuffleboard/Shooter Test/Main At SP?"}
+        ]
+      },
+      {
+        "title": "Controls Info",
+        "type": "Text",
+        "key": "/Shuffleboard/Shooter Test/Controls"
+      }
+    ]
+  }
+}
