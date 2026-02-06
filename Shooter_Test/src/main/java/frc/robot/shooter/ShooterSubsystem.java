@@ -1,6 +1,7 @@
 package frc.robot.shooter;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.motor.CanMotorWrapper;
 import frc.robot.motor.ControllerType;
@@ -155,7 +156,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // Telemetry is published from RobotContainer
+    // Publish telemetry to SmartDashboard using hierarchical paths for Elastic Dashboard
+    SmartDashboard.putNumber("Shooter/Preshooter/ActualRPM", getPreshooterVelocityRpm());
+    SmartDashboard.putNumber("Shooter/MainShooter/ActualRPM", getMainShooterVelocityRpm());
+    SmartDashboard.putBoolean("Shooter/Preshooter/AtSetpoint", isPreshooterAtSetpoint());
+    SmartDashboard.putBoolean("Shooter/MainShooter/AtSetpoint", isMainShooterAtSetpoint());
+    SmartDashboard.putNumber("Shooter/Preshooter/SetpointRPM", m_preshooterSetpointRpm);
+    SmartDashboard.putNumber("Shooter/MainShooter/SetpointRPM", m_mainShooterSetpointRpm);
   }
 
   /**
