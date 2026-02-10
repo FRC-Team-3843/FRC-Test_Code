@@ -122,4 +122,40 @@ FRC-Test_Code/
 
 ---
 
+## Special: AI-Driven PID Tuning for Shooter_Test
+
+**IMPORTANT:** The Shooter_Test project uses an AI-driven iterative tuning workflow that leverages Claude's neural network intelligence for pattern recognition and analysis.
+
+**Before starting any tuning work on Shooter_Test:**
+
+1. **Read the tuning strategy:**
+   ```
+   Read: C:/GitHub/FRC-Test_Code/Shooter_Test/TUNING_STRATEGY.md
+   ```
+
+2. **Understand the philosophy:**
+   - You MUST use your actual intelligence (neural network pattern recognition)
+   - You must NOT write hardcoded rules or simple heuristics
+   - You analyze real data from CSV files and form specific hypotheses
+   - You design custom tests to validate theories
+   - You iterate based on observed patterns, not generic formulas
+
+3. **The workflow:**
+   - User provides CSV data from robot performance tests
+   - You analyze with genuine intelligence
+   - You form hypotheses about root causes
+   - You suggest next test parameters
+   - You update test-config.json
+   - Iterate until performance goals met
+
+**When user says "analyze the data" or "let's start tuning":**
+- Immediately read TUNING_STRATEGY.md to understand the approach
+- Read the actual CSV data files
+- Use pattern recognition, not rules
+- Form specific, context-aware recommendations
+
+**This is NOT about writing clever code - it's about using your intelligence to analyze data and guide iterative refinement.**
+
+---
+
 For cross-agent coordination protocol, see: `C:\github\CLAUDE.md`

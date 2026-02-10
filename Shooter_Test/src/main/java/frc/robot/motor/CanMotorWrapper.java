@@ -326,6 +326,23 @@ public class CanMotorWrapper implements UniversalMotor {
   }
 
   @Override
+  public double getAppliedVoltage() {
+    switch (controllerType) {
+      case SPARK_MAX:
+      case SPARK_FLEX:
+        return spark.getAppliedOutput() * spark.getBusVoltage();
+      case TALON_FX:
+        return talonFx.getMotorVoltage().getValueAsDouble();
+      case TALON_FXS:
+        return talonFxs.getMotorVoltage().getValueAsDouble();
+      case TALON_SRX:
+        return talonSrx.getMotorOutputVoltage();
+      default:
+        return 0.0;
+    }
+  }
+
+  @Override
   public double getTemperature() {
     switch (controllerType) {
       case SPARK_MAX:

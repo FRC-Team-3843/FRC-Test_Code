@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.CharacterizeShooterCommand;
 import frc.robot.shooter.ShooterConfig;
 import frc.robot.shooter.ShooterConfigLoader;
 import frc.robot.shooter.ShooterSubsystem;
@@ -44,6 +45,18 @@ public class RobotContainer {
     SmartDashboard.putNumber("Shooter/Servo/Position1", m_config.servoPosition1);
     SmartDashboard.putNumber("Shooter/Servo/Position2", m_config.servoPosition2);
 
+    // Motor enable/disable toggles (default both enabled)
+    SmartDashboard.putBoolean("Shooter/Preshooter/Enabled", true);
+    SmartDashboard.putBoolean("Shooter/MainShooter/Enabled", true);
+
+    // Recommended PID values for reference
+    SmartDashboard.putNumber("Shooter/Recommended/Preshooter_kS", 0.25);
+    SmartDashboard.putNumber("Shooter/Recommended/Preshooter_kV", 0.116);
+    SmartDashboard.putNumber("Shooter/Recommended/Preshooter_kP", 0.2);
+    SmartDashboard.putNumber("Shooter/Recommended/MainShooter_kS", 0.25);
+    SmartDashboard.putNumber("Shooter/Recommended/MainShooter_kV", 0.111);
+    SmartDashboard.putNumber("Shooter/Recommended/MainShooter_kP", 0.2);
+
     // Apply PID button indicator
     SmartDashboard.putBoolean("Shooter/ApplyPID", false);
 
@@ -58,7 +71,15 @@ public class RobotContainer {
     SmartDashboard.putNumber("Shooter/MainShooter/ActualRPM", 0);
     SmartDashboard.putBoolean("Shooter/Preshooter/AtSetpoint", false);
     SmartDashboard.putBoolean("Shooter/MainShooter/AtSetpoint", false);
-    SmartDashboard.putString("Shooter/Controls", "A = Setpoint1 | B = Setpoint2 | X = Apply PID");
+    SmartDashboard.putString("Shooter/Controls", "A = Setpoint1 | B = Setpoint2 | X = Apply PID | Y = Tune Preshooter | Back = Tune Main");
+
+    // Characterization status widgets
+    SmartDashboard.putString("Shooter/Tuning/Status", "Ready");
+    SmartDashboard.putNumber("Shooter/Tuning/Phase", 0);
+    SmartDashboard.putNumber("Shooter/Tuning/kS", 0.0);
+    SmartDashboard.putNumber("Shooter/Tuning/kV", 0.0);
+    SmartDashboard.putNumber("Shooter/Tuning/kP", 0.0);
+    SmartDashboard.putNumber("Shooter/Tuning/SteadyStateError_RPM", 0.0);
   }
 
   private void configureBindings() {
@@ -87,6 +108,12 @@ public class RobotContainer {
       applyPidConfig();
       SmartDashboard.putBoolean("Shooter/ApplyPID", false);
     }));
+
+    // Y button: Characterize preshooter (hold button for ~20 seconds)
+    m_driver.y().whileTrue(new CharacterizeShooterCommand(m_shooter, true));
+
+    // Back button: Characterize main shooter (hold button for ~20 seconds)
+    m_driver.back().whileTrue(new CharacterizeShooterCommand(m_shooter, false));
   }
 
   private void applyPidConfig() {

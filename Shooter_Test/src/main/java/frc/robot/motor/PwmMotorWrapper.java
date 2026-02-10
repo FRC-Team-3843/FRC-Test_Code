@@ -41,6 +41,8 @@ public class PwmMotorWrapper implements UniversalMotor {
   @Override
   public double getCurrent() { return 0; }
   @Override
+  public double getAppliedVoltage() { return 0; }
+  @Override
   public double getTemperature() { return 0; }
   @Override
   public double getHealthScore() { return healthScore; }

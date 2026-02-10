@@ -17,6 +17,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private double m_preshooterSetpointRpm = 0.0;
   private double m_mainShooterSetpointRpm = 0.0;
 
+  private boolean m_preshooterEnabled = true;
+  private boolean m_mainShooterEnabled = true;
+
   public ShooterSubsystem(ShooterConfig config) {
     // Create preshooter motor (Kraken X44)
     m_preshooter = new CanMotorWrapper(
@@ -60,9 +63,57 @@ public class ShooterSubsystem extends SubsystemBase {
     m_preshooterSetpointRpm = preshooterRpm;
     m_mainShooterSetpointRpm = mainShooterRpm;
 
-    // Convert RPM to RPS for motor control
-    m_preshooter.setVelocityRps(preshooterRpm / 60.0);
-    m_mainShooter.setVelocityRps(mainShooterRpm / 60.0);
+    // Convert RPM to RPS for motor control, only if enabled
+    if (m_preshooterEnabled) {
+      m_preshooter.setVelocityRps(preshooterRpm / 60.0);
+    }
+    if (m_mainShooterEnabled) {
+      m_mainShooter.setVelocityRps(mainShooterRpm / 60.0);
+    }
+  }
+
+  /**
+   * Enables or disables the preshooter motor.
+   *
+   * @param enabled True to enable, false to disable
+   */
+  public void setPreshooterEnabled(boolean enabled) {
+    m_preshooterEnabled = enabled;
+    if (!enabled) {
+      m_preshooter.stop();
+      m_preshooterSetpointRpm = 0.0;
+    }
+  }
+
+  /**
+   * Enables or disables the main shooter motor.
+   *
+   * @param enabled True to enable, false to disable
+   */
+  public void setMainShooterEnabled(boolean enabled) {
+    m_mainShooterEnabled = enabled;
+    if (!enabled) {
+      m_mainShooter.stop();
+      m_mainShooterSetpointRpm = 0.0;
+    }
+  }
+
+  /**
+   * Checks if preshooter is enabled.
+   *
+   * @return True if enabled
+   */
+  public boolean isPreshooterEnabled() {
+    return m_preshooterEnabled;
+  }
+
+  /**
+   * Checks if main shooter is enabled.
+   *
+   * @return True if enabled
+   */
+  public boolean isMainShooterEnabled() {
+    return m_mainShooterEnabled;
   }
 
   /**
@@ -154,13 +205,93 @@ public class ShooterSubsystem extends SubsystemBase {
     m_mainShooter.updatePidConfig(kP, kI, kD, kV, kS);
   }
 
+  /**
+   * Sets raw voltage to preshooter motor (for characterization).
+   *
+   * @param volts Voltage to apply
+   */
+  public void setPreshooterVoltage(double volts) {
+    if (m_preshooterEnabled) {
+      m_preshooter.setVoltage(volts);
+    }
+  }
+
+  /**
+   * Sets raw voltage to main shooter motor (for characterization).
+   *
+   * @param volts Voltage to apply
+   */
+  public void setMainShooterVoltage(double volts) {
+    if (m_mainShooterEnabled) {
+      m_mainShooter.setVoltage(volts);
+    }
+  }
+
+  /**
+   * Gets applied voltage for preshooter (for characterization).
+   *
+   * @return Applied voltage in volts
+   */
+  public double getPreshooterVoltage() {
+    return m_preshooter.getAppliedVoltage();
+  }
+
+  /**
+   * Gets applied voltage for main shooter (for characterization).
+   *
+   * @return Applied voltage in volts
+   */
+  public double getMainShooterVoltage() {
+    return m_mainShooter.getAppliedVoltage();
+  }
+
+  /**
+   * Gets preshooter current (for characterization).
+   *
+   * @return Current in amps
+   */
+  public double getPreshooterCurrent() {
+    return m_preshooter.getCurrent();
+  }
+
+  /**
+   * Gets main shooter current (for characterization).
+   *
+   * @return Current in amps
+   */
+  public double getMainShooterCurrent() {
+    return m_mainShooter.getCurrent();
+  }
+
+  /**
+   * Gets preshooter velocity in RPS (for characterization).
+   *
+   * @return Velocity in rotations per second
+   */
+  public double getPreshooterVelocityRps() {
+    return m_preshooter.getVelocityRps();
+  }
+
+  /**
+   * Gets main shooter velocity in RPS (for characterization).
+   *
+   * @return Velocity in rotations per second
+   */
+  public double getMainShooterVelocityRps() {
+    return m_mainShooter.getVelocityRps();
+  }
+
   @Override
   public void periodic() {
+    // Read enable toggles from dashboard
+    m_preshooterEnabled = SmartDashboard.getBoolean("Shooter/Preshooter/Enabled", true);
+    m_mainShooterEnabled = SmartDashboard.getBoolean("Shooter/MainShooter/Enabled", true);
+
     // Publish telemetry to SmartDashboard using hierarchical paths for Elastic Dashboard
-    SmartDashboard.putNumber("Shooter/Preshooter/ActualRPM", getPreshooterVelocityRpm());
-    SmartDashboard.putNumber("Shooter/MainShooter/ActualRPM", getMainShooterVelocityRpm());
-    SmartDashboard.putBoolean("Shooter/Preshooter/AtSetpoint", isPreshooterAtSetpoint());
-    SmartDashboard.putBoolean("Shooter/MainShooter/AtSetpoint", isMainShooterAtSetpoint());
+    SmartDashboard.putNumber("Shooter/Preshooter/ActualRPM", m_preshooterEnabled ? getPreshooterVelocityRpm() : 0.0);
+    SmartDashboard.putNumber("Shooter/MainShooter/ActualRPM", m_mainShooterEnabled ? getMainShooterVelocityRpm() : 0.0);
+    SmartDashboard.putBoolean("Shooter/Preshooter/AtSetpoint", m_preshooterEnabled && isPreshooterAtSetpoint());
+    SmartDashboard.putBoolean("Shooter/MainShooter/AtSetpoint", m_mainShooterEnabled && isMainShooterAtSetpoint());
     SmartDashboard.putNumber("Shooter/Preshooter/SetpointRPM", m_preshooterSetpointRpm);
     SmartDashboard.putNumber("Shooter/MainShooter/SetpointRPM", m_mainShooterSetpointRpm);
   }

@@ -42,7 +42,42 @@ When working in the Shooter_Test project, Claude should read configurations in t
 - 2026 command-based architecture
 - Velocity PID control with hot-reload tuning
 - Dual setpoints for different shooting scenarios
-- Real-time telemetry via Shuffleboard
+- Real-time telemetry via Elastic Dashboard
+
+---
+
+## 🔥 CRITICAL: AI-Driven PID Tuning Workflow
+
+**This project uses AI-driven iterative tuning that leverages Claude's neural network intelligence.**
+
+**BEFORE doing ANY tuning work, you MUST read:**
+```
+Read: C:/GitHub/FRC-Test_Code/Shooter_Test/TUNING_STRATEGY.md
+```
+
+**Key points:**
+- ✅ Use your actual intelligence to analyze real data
+- ✅ Form specific hypotheses based on patterns
+- ✅ Design custom tests to validate theories
+- ❌ DO NOT write hardcoded tuning rules
+- ❌ DO NOT use generic formulas without understanding data
+
+**The workflow:**
+1. User provides CSV data from performance tests
+2. You analyze with pattern recognition
+3. You form hypotheses about root causes
+4. You suggest next test parameters in test-config.json
+5. Iterate until goals met
+
+**When user says "analyze the data" or "let's tune":**
+- Read TUNING_STRATEGY.md immediately
+- Read the CSV data file
+- Use intelligence, not rules
+- Provide context-aware recommendations
+
+---
+
+## Standard Work Guidelines
 
 **When working here:**
 - Document PID tuning results in changelog

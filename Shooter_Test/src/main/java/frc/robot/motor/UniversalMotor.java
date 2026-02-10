@@ -28,6 +28,7 @@ public interface UniversalMotor {
   Mode getControlMode();
   void set(double value); // Generic set based on mode?
   double getCurrent();
+  double getAppliedVoltage();
   double getTemperature();
   double getHealthScore();
   void setHealthScore(double score);
