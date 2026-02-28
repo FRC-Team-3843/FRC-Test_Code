@@ -469,6 +469,39 @@
               "data_type": "double",
               "show_submit_button": true
             }
+          },
+
+          {
+            "title": "Preshooter Amps",
+            "x": 0.0,
+            "y": 768.0,
+            "width": 384.0,
+            "height": 256.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Preshooter/CurrentAmps",
+              "period": 0.02,
+              "data_type": "double",
+              "time_range": 10.0,
+              "y_axis_min": 0.0,
+              "y_axis_max": 40.0
+            }
+          },
+          {
+            "title": "Main Shooter Amps",
+            "x": 512.0,
+            "y": 768.0,
+            "width": 384.0,
+            "height": 256.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/CurrentAmps",
+              "period": 0.02,
+              "data_type": "double",
+              "time_range": 10.0,
+              "y_axis_min": 0.0,
+              "y_axis_max": 40.0
+            }
           }
         ]
       }

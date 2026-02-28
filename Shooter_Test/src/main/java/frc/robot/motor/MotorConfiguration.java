@@ -15,6 +15,7 @@ public final class MotorConfiguration {
   public final double kD;
   public final double kV;
   public final double kS;
+  public final boolean brakeMode;
 
   private MotorConfiguration(Builder builder) {
     controllerType = builder.controllerType;
@@ -31,6 +32,7 @@ public final class MotorConfiguration {
     kD = builder.kD;
     kV = builder.kV;
     kS = builder.kS;
+    brakeMode = builder.brakeMode;
   }
 
   public static Builder builder(ControllerType controllerType, MotorKind motorKind) {
@@ -52,6 +54,7 @@ public final class MotorConfiguration {
     private double kD = 0.0;
     private double kV = 0.0;
     private double kS = 0.0;
+    private boolean brakeMode = true;
 
     private Builder(ControllerType controllerType, MotorKind motorKind) {
       this.controllerType = controllerType;
@@ -115,6 +118,11 @@ public final class MotorConfiguration {
 
     public Builder kS(double kS) {
       this.kS = kS;
+      return this;
+    }
+
+    public Builder brakeMode(boolean brakeMode) {
+      this.brakeMode = brakeMode;
       return this;
     }
 

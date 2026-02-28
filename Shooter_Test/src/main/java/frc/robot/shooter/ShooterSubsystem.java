@@ -32,6 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
             .kD(config.preshooterKd)
             .kV(config.preshooterKv)
             .kS(config.preshooterKs)
+            .brakeMode(config.brakeMode)
             .build());
 
     // Create main shooter motor (Kraken X60)
@@ -45,6 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
             .kD(config.mainShooterKd)
             .kV(config.mainShooterKv)
             .kS(config.mainShooterKs)
+            .brakeMode(config.brakeMode)
             .build());
 
     // Create servo
@@ -294,6 +296,8 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Shooter/MainShooter/AtSetpoint", m_mainShooterEnabled && isMainShooterAtSetpoint());
     SmartDashboard.putNumber("Shooter/Preshooter/SetpointRPM", m_preshooterSetpointRpm);
     SmartDashboard.putNumber("Shooter/MainShooter/SetpointRPM", m_mainShooterSetpointRpm);
+    SmartDashboard.putNumber("Shooter/Preshooter/CurrentAmps", m_preshooterEnabled ? getPreshooterCurrent() : 0.0);
+    SmartDashboard.putNumber("Shooter/MainShooter/CurrentAmps", m_mainShooterEnabled ? getMainShooterCurrent() : 0.0);
   }
 
   /**

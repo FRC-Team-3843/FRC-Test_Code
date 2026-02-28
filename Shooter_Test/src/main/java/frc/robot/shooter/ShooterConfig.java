@@ -54,14 +54,17 @@ public class ShooterConfig {
   @JsonProperty("mainShooterKs")
   public double mainShooterKs = 0.0;
 
+  @JsonProperty("brakeMode")
+  public boolean brakeMode = false;
+
   @JsonProperty("servoPwmChannel")
   public int servoPwmChannel = 0;
 
   @JsonProperty("servoPosition1")
-  public double servoPosition1 = 0.5;
+  public double servoPosition1 = 0.95;
 
   @JsonProperty("servoPosition2")
-  public double servoPosition2 = 1.0;
+  public double servoPosition2 = 0.45;
 
   @JsonProperty("preshooterSetpoint1Rpm")
   public double preshooterSetpoint1Rpm = 6500.0;

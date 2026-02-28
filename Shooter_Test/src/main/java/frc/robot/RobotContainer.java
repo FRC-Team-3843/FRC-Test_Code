@@ -57,7 +57,7 @@ public class RobotContainer {
   }
 
   private void configureTelemetry() {
-    SmartDashboard.putString("Shooter/Controls", "A = Setpoint1 | B = Setpoint2 | X = Apply PID | Y = Tune Preshooter | Back = Tune Main");
+    SmartDashboard.putString("Shooter/Controls", "A=SP1 | B=SP2 | X=ApplyPID | Y=TunePre | Back=TuneMain | LB=Servo1 | RB=Servo2");
 
     // Characterization status widgets
     SmartDashboard.putString("Shooter/Tuning/Status", "Ready");
@@ -100,6 +100,18 @@ public class RobotContainer {
 
     // Back button: Characterize main shooter (hold button for ~20 seconds)
     m_driver.back().whileTrue(new CharacterizeShooterCommand(m_shooter, false));
+
+    // Left Bumper: Servo to position 1 (no motors)
+    m_driver.leftBumper().onTrue(Commands.runOnce(() -> {
+      double servoPos = SmartDashboard.getNumber("Shooter/Servo/Position1", m_config.servoPosition1);
+      m_shooter.setServoPosition(servoPos);
+    }));
+
+    // Right Bumper: Servo to position 2 (no motors)
+    m_driver.rightBumper().onTrue(Commands.runOnce(() -> {
+      double servoPos = SmartDashboard.getNumber("Shooter/Servo/Position2", m_config.servoPosition2);
+      m_shooter.setServoPosition(servoPos);
+    }));
   }
 
   private void applyPidConfig() {

@@ -96,7 +96,7 @@ public class CanMotorWrapper implements UniversalMotor {
     sparkEncoder = spark.getEncoder();
 
     baseConfig.inverted(config.inverted);
-    baseConfig.idleMode(IdleMode.kBrake);
+    baseConfig.idleMode(config.brakeMode ? IdleMode.kBrake : IdleMode.kCoast);
     baseConfig.encoder.positionConversionFactor(1.0 / gearRatio);
     baseConfig.encoder.velocityConversionFactor(1.0 / gearRatio / 60.0);
     spark.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);        
@@ -106,7 +106,7 @@ public class CanMotorWrapper implements UniversalMotor {
     TalonFXConfiguration fxConfig = new TalonFXConfiguration();
     fxConfig.MotorOutput.Inverted =
         config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-    fxConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    fxConfig.MotorOutput.NeutralMode = config.brakeMode ? NeutralModeValue.Brake : NeutralModeValue.Coast;
     fxConfig.Feedback.SensorToMechanismRatio = gearRatio;
 
     // Apply PID configuration to Slot0
@@ -123,7 +123,7 @@ public class CanMotorWrapper implements UniversalMotor {
     TalonFXSConfiguration fxsConfig = new TalonFXSConfiguration();
     fxsConfig.MotorOutput.Inverted =
         config.inverted ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
-    fxsConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    fxsConfig.MotorOutput.NeutralMode = config.brakeMode ? NeutralModeValue.Brake : NeutralModeValue.Coast;
     fxsConfig.ExternalFeedback.SensorToMechanismRatio = gearRatio;
 
     // Apply PID configuration to Slot0
