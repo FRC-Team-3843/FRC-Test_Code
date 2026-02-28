@@ -49,14 +49,6 @@ public class RobotContainer {
     SmartDashboard.putBoolean("Shooter/Preshooter/Enabled", true);
     SmartDashboard.putBoolean("Shooter/MainShooter/Enabled", true);
 
-    // Recommended PID values for reference
-    SmartDashboard.putNumber("Shooter/Recommended/Preshooter_kS", 0.25);
-    SmartDashboard.putNumber("Shooter/Recommended/Preshooter_kV", 0.116);
-    SmartDashboard.putNumber("Shooter/Recommended/Preshooter_kP", 0.2);
-    SmartDashboard.putNumber("Shooter/Recommended/MainShooter_kS", 0.25);
-    SmartDashboard.putNumber("Shooter/Recommended/MainShooter_kV", 0.111);
-    SmartDashboard.putNumber("Shooter/Recommended/MainShooter_kP", 0.2);
-
     // Apply PID button indicator
     SmartDashboard.putBoolean("Shooter/ApplyPID", false);
 
@@ -65,12 +57,6 @@ public class RobotContainer {
   }
 
   private void configureTelemetry() {
-    // Note: Telemetry is continuously updated in Robot.java's robotPeriodic() or subsystem periodic()
-    // Initial placeholder values
-    SmartDashboard.putNumber("Shooter/Preshooter/ActualRPM", 0);
-    SmartDashboard.putNumber("Shooter/MainShooter/ActualRPM", 0);
-    SmartDashboard.putBoolean("Shooter/Preshooter/AtSetpoint", false);
-    SmartDashboard.putBoolean("Shooter/MainShooter/AtSetpoint", false);
     SmartDashboard.putString("Shooter/Controls", "A = Setpoint1 | B = Setpoint2 | X = Apply PID | Y = Tune Preshooter | Back = Tune Main");
 
     // Characterization status widgets

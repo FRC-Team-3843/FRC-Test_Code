@@ -8,10 +8,10 @@
         "layouts": [],
         "containers": [
           {
-            "title": "Controls Info",
+            "title": "Controls",
             "x": 0.0,
             "y": 0.0,
-            "width": 384.0,
+            "width": 256.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
@@ -21,6 +21,77 @@
               "show_submit_button": false
             }
           },
+          {
+            "title": "Tuning Status",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Tuning/Status",
+              "period": 0.1,
+              "data_type": "string",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Phase",
+            "x": 512.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Tuning/Phase",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Calc kS",
+            "x": 640.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Tuning/kS",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Calc kV",
+            "x": 768.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Tuning/kV",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Calc kP",
+            "x": 896.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Tuning/kP",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+
           {
             "title": "Preshooter RPM",
             "x": 0.0,
@@ -38,25 +109,23 @@
             }
           },
           {
-            "title": "Main Shooter RPM",
+            "title": "Pre Setpoint",
             "x": 384.0,
             "y": 128.0,
-            "width": 384.0,
-            "height": 256.0,
-            "type": "Graph",
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
             "properties": {
-              "topic": "/SmartDashboard/Shooter/MainShooter/ActualRPM",
-              "period": 0.02,
+              "topic": "/SmartDashboard/Shooter/Preshooter/SetpointRPM",
+              "period": 0.1,
               "data_type": "double",
-              "time_range": 10.0,
-              "y_axis_min": 0.0,
-              "y_axis_max": 6000.0
+              "show_submit_button": false
             }
           },
           {
             "title": "Pre At Setpoint",
-            "x": 0.0,
-            "y": 384.0,
+            "x": 384.0,
+            "y": 256.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Boolean Box",
@@ -71,9 +140,39 @@
             }
           },
           {
+            "title": "Main Shooter RPM",
+            "x": 512.0,
+            "y": 128.0,
+            "width": 384.0,
+            "height": 256.0,
+            "type": "Graph",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/ActualRPM",
+              "period": 0.02,
+              "data_type": "double",
+              "time_range": 10.0,
+              "y_axis_min": 0.0,
+              "y_axis_max": 6000.0
+            }
+          },
+          {
+            "title": "Main Setpoint",
+            "x": 896.0,
+            "y": 128.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/SetpointRPM",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
             "title": "Main At Setpoint",
-            "x": 128.0,
-            "y": 384.0,
+            "x": 896.0,
+            "y": 256.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Boolean Box",
@@ -87,189 +186,59 @@
               "false_icon": "None"
             }
           },
+
           {
-            "title": "Pre Setpoint",
+            "title": "Pre ENABLED",
+            "x": 0.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Toggle Button",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Preshooter/Enabled",
+              "period": 0.06,
+              "data_type": "boolean"
+            }
+          },
+          {
+            "title": "Main ENABLED",
+            "x": 128.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Toggle Button",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/Enabled",
+              "period": 0.06,
+              "data_type": "boolean"
+            }
+          },
+          {
+            "title": "Servo Pos 1",
             "x": 256.0,
             "y": 384.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
-              "topic": "/SmartDashboard/Shooter/Preshooter/SetpointRPM",
+              "topic": "/SmartDashboard/Shooter/Servo/Position1",
               "period": 0.1,
               "data_type": "double",
-              "show_submit_button": false
+              "show_submit_button": true
             }
           },
           {
-            "title": "Main Setpoint",
+            "title": "Servo Pos 2",
             "x": 384.0,
             "y": 384.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
-              "topic": "/SmartDashboard/Shooter/MainShooter/SetpointRPM",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": false
-            }
-          },
-          {
-            "title": "Pre kP",
-            "x": 768.0,
-            "y": 128.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kP",
+              "topic": "/SmartDashboard/Shooter/Servo/Position2",
               "period": 0.1,
               "data_type": "double",
               "show_submit_button": true
-            }
-          },
-          {
-            "title": "Pre kI",
-            "x": 896.0,
-            "y": 128.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kI",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Pre kD",
-            "x": 1024.0,
-            "y": 128.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kD",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Pre kV",
-            "x": 768.0,
-            "y": 256.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kV",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Pre kS",
-            "x": 896.0,
-            "y": 256.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kS",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Main kP",
-            "x": 768.0,
-            "y": 384.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kP",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Main kI",
-            "x": 896.0,
-            "y": 384.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kI",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Main kD",
-            "x": 1024.0,
-            "y": 384.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kD",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Main kV",
-            "x": 768.0,
-            "y": 512.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kV",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Main kS",
-            "x": 896.0,
-            "y": 512.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kS",
-              "period": 0.1,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "Apply PID",
-            "x": 1024.0,
-            "y": 256.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Boolean Box",
-            "properties": {
-              "topic": "/SmartDashboard/Shooter/ApplyPID",
-              "period": 0.1,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "None",
-              "false_icon": "None"
             }
           },
           {
@@ -302,8 +271,8 @@
           },
           {
             "title": "Main SP1 RPM",
-            "x": 512.0,
-            "y": 512.0,
+            "x": 768.0,
+            "y": 384.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Text Display",
@@ -316,8 +285,8 @@
           },
           {
             "title": "Main SP2 RPM",
-            "x": 640.0,
-            "y": 512.0,
+            "x": 896.0,
+            "y": 384.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Text Display",
@@ -328,42 +297,180 @@
               "show_submit_button": true
             }
           },
+
           {
-            "title": "Servo Pos 1",
+            "title": "Pre kP",
             "x": 0.0,
             "y": 512.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
-              "topic": "/SmartDashboard/Shooter/Servo/Position1",
+              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kP",
               "period": 0.1,
               "data_type": "double",
               "show_submit_button": true
             }
           },
           {
-            "title": "Servo Pos 2",
+            "title": "Pre kI",
             "x": 128.0,
             "y": 512.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Text Display",
             "properties": {
-              "topic": "/SmartDashboard/Shooter/Servo/Position2",
+              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kI",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Pre kD",
+            "x": 256.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kD",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Pre kV",
+            "x": 384.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kV",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Pre kS",
+            "x": 512.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Preshooter/PID/kS",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Steady State Error",
+            "x": 640.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/Tuning/SteadyStateError_RPM",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Apply PID",
+            "x": 768.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/ApplyPID",
+              "period": 0.1,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+
+          {
+            "title": "Main kP",
+            "x": 0.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kP",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Main kI",
+            "x": 128.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kI",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Main kD",
+            "x": 256.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kD",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Main kV",
+            "x": 384.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kV",
+              "period": 0.1,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "Main kS",
+            "x": 512.0,
+            "y": 640.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Shooter/MainShooter/PID/kS",
               "period": 0.1,
               "data_type": "double",
               "show_submit_button": true
             }
           }
         ]
-      }
-    },
-    {
-      "name": "Autonomous",
-      "grid_layout": {
-        "layouts": [],
-        "containers": []
       }
     }
   ]
