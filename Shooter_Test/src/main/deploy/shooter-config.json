@@ -7,6 +7,11 @@
   "preshooterKd": 0.0,
   "preshooterKv": 0.116,
   "preshooterKs": 0.25,
+  "preshooterCanBus": "",
+  "preshooterMotorKind": "KRAKEN_X44",
+  "preshooterControllerType": "TALON_FX",
+  "preshooterBrakeMode": false,
+
   "mainShooterCanId": 21,
   "mainShooterInverted": false,
   "mainShooterGearRatio": 1.0,
@@ -15,12 +20,30 @@
   "mainShooterKd": 0.0,
   "mainShooterKv": 0.111,
   "mainShooterKs": 0.25,
-  "brakeMode": false,
+  "mainShooterCanBus": "",
+  "mainShooterMotorKind": "KRAKEN",
+  "mainShooterControllerType": "TALON_FX",
+  "mainShooterBrakeMode": false,
+
+  "velocityToleranceRpm": 50.0,
+
   "servoPwmChannel": 0,
   "servoPosition1": 0.95,
   "servoPosition2": 0.45,
+
   "preshooterSetpoint1Rpm": 6500.0,
   "preshooterSetpoint2Rpm": 3250.0,
   "mainShooterSetpoint1Rpm": 5500.0,
-  "mainShooterSetpoint2Rpm": 2750.0
+  "mainShooterSetpoint2Rpm": 2750.0,
+
+  "driverControllerPort": 0,
+  "enableMotorLogging": true,
+
+  "buttonSetpoint1": "A",
+  "buttonSetpoint2": "B",
+  "buttonApplyPid": "X",
+  "buttonCharPreshooter": "Y",
+  "buttonCharMainShooter": "BACK",
+  "buttonServoPos1": "LEFT_BUMPER",
+  "buttonServoPos2": "RIGHT_BUMPER"
 }
