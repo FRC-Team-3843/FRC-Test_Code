@@ -1,10 +1,12 @@
 package frc.robot.shooter;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Configuration class for shooter system loaded from JSON.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ShooterConfig {
   @JsonProperty("preshooterCanId")
   public int preshooterCanId = 20;
@@ -16,7 +18,7 @@ public class ShooterConfig {
   public double preshooterGearRatio = 1.0;
 
   @JsonProperty("preshooterKp")
-  public double preshooterKp = 0.1;
+  public double preshooterKp = 0.2;
 
   @JsonProperty("preshooterKi")
   public double preshooterKi = 0.0;
@@ -25,10 +27,10 @@ public class ShooterConfig {
   public double preshooterKd = 0.0;
 
   @JsonProperty("preshooterKv")
-  public double preshooterKv = 0.12;
+  public double preshooterKv = 0.116;
 
   @JsonProperty("preshooterKs")
-  public double preshooterKs = 0.0;
+  public double preshooterKs = 0.25;
 
   @JsonProperty("mainShooterCanId")
   public int mainShooterCanId = 21;
@@ -40,7 +42,7 @@ public class ShooterConfig {
   public double mainShooterGearRatio = 1.0;
 
   @JsonProperty("mainShooterKp")
-  public double mainShooterKp = 0.1;
+  public double mainShooterKp = 0.2;
 
   @JsonProperty("mainShooterKi")
   public double mainShooterKi = 0.0;
@@ -49,10 +51,10 @@ public class ShooterConfig {
   public double mainShooterKd = 0.0;
 
   @JsonProperty("mainShooterKv")
-  public double mainShooterKv = 0.12;
+  public double mainShooterKv = 0.111;
 
   @JsonProperty("mainShooterKs")
-  public double mainShooterKs = 0.0;
+  public double mainShooterKs = 0.25;
 
   @JsonProperty("preshooterBrakeMode")
   public boolean preshooterBrakeMode = false;
