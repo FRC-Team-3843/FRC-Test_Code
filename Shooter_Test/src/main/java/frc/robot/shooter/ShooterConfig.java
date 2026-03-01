@@ -54,10 +54,6 @@ public class ShooterConfig {
   @JsonProperty("mainShooterKs")
   public double mainShooterKs = 0.0;
 
-  // DEPRECATED: use preshooterBrakeMode/mainShooterBrakeMode instead
-  @JsonProperty("brakeMode")
-  public boolean brakeMode = false;
-
   @JsonProperty("preshooterBrakeMode")
   public boolean preshooterBrakeMode = false;
 
