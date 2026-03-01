@@ -38,4 +38,24 @@ public class ShooterConfigLoader {
       return new ShooterConfig();
     }
   }
+
+  /**
+   * Saves shooter configuration to a JSON file in the deploy directory.
+   * Used to persist tuned values on the roboRIO across reboots.
+   *
+   * @param filename Name of the JSON file (e.g., "shooter-config.json")
+   * @param config The ShooterConfig object to save
+   * @return true if save succeeded, false otherwise
+   */
+  public static boolean saveConfig(String filename, ShooterConfig config) {
+    try {
+      File configFile = new File(Filesystem.getDeployDirectory(), filename);
+      mapper.writerWithDefaultPrettyPrinter().writeValue(configFile, config);
+      System.out.println("Configuration saved to " + configFile.getAbsolutePath());
+      return true;
+    } catch (IOException e) {
+      System.err.println("Failed to save shooter config to " + filename + ": " + e.getMessage());
+      return false;
+    }
+  }
 }
