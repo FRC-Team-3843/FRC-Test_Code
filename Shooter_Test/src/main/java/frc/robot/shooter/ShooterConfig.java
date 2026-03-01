@@ -54,8 +54,63 @@ public class ShooterConfig {
   @JsonProperty("mainShooterKs")
   public double mainShooterKs = 0.0;
 
+  // DEPRECATED: use preshooterBrakeMode/mainShooterBrakeMode instead
   @JsonProperty("brakeMode")
   public boolean brakeMode = false;
+
+  @JsonProperty("preshooterBrakeMode")
+  public boolean preshooterBrakeMode = false;
+
+  @JsonProperty("mainShooterBrakeMode")
+  public boolean mainShooterBrakeMode = false;
+
+  @JsonProperty("velocityToleranceRpm")
+  public double velocityToleranceRpm = 50.0;
+
+  @JsonProperty("preshooterCanBus")
+  public String preshooterCanBus = "";
+
+  @JsonProperty("mainShooterCanBus")
+  public String mainShooterCanBus = "";
+
+  @JsonProperty("preshooterMotorKind")
+  public String preshooterMotorKind = "KRAKEN_X44";
+
+  @JsonProperty("preshooterControllerType")
+  public String preshooterControllerType = "TALON_FX";
+
+  @JsonProperty("mainShooterMotorKind")
+  public String mainShooterMotorKind = "KRAKEN";
+
+  @JsonProperty("mainShooterControllerType")
+  public String mainShooterControllerType = "TALON_FX";
+
+  @JsonProperty("driverControllerPort")
+  public int driverControllerPort = 0;
+
+  @JsonProperty("enableMotorLogging")
+  public boolean enableMotorLogging = true;
+
+  @JsonProperty("buttonSetpoint1")
+  public String buttonSetpoint1 = "A";
+
+  @JsonProperty("buttonSetpoint2")
+  public String buttonSetpoint2 = "B";
+
+  @JsonProperty("buttonApplyPid")
+  public String buttonApplyPid = "X";
+
+  @JsonProperty("buttonCharPreshooter")
+  public String buttonCharPreshooter = "Y";
+
+  @JsonProperty("buttonCharMainShooter")
+  public String buttonCharMainShooter = "BACK";
+
+  @JsonProperty("buttonServoPos1")
+  public String buttonServoPos1 = "LEFT_BUMPER";
+
+  @JsonProperty("buttonServoPos2")
+  public String buttonServoPos2 = "RIGHT_BUMPER";
 
   @JsonProperty("servoPwmChannel")
   public int servoPwmChannel = 0;
