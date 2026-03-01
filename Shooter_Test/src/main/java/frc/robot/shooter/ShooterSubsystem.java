@@ -21,10 +21,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private boolean m_mainShooterEnabled = true;
 
   public ShooterSubsystem(ShooterConfig config) {
-    // Create preshooter motor (Kraken X44)
+    // Create preshooter motor from config
     m_preshooter = new CanMotorWrapper(
-        MotorConfiguration.builder(ControllerType.TALON_FX, MotorKind.KRAKEN_X44)
+        MotorConfiguration.builder(
+                ControllerType.valueOf(config.preshooterControllerType),
+                MotorKind.valueOf(config.preshooterMotorKind))
             .canId(config.preshooterCanId)
+            .canBus(config.preshooterCanBus)
             .inverted(config.preshooterInverted)
             .gearRatio(config.preshooterGearRatio)
             .kP(config.preshooterKp)
@@ -32,13 +35,16 @@ public class ShooterSubsystem extends SubsystemBase {
             .kD(config.preshooterKd)
             .kV(config.preshooterKv)
             .kS(config.preshooterKs)
-            .brakeMode(config.brakeMode)
+            .brakeMode(config.preshooterBrakeMode)
             .build());
 
-    // Create main shooter motor (Kraken X60)
+    // Create main shooter motor from config
     m_mainShooter = new CanMotorWrapper(
-        MotorConfiguration.builder(ControllerType.TALON_FX, MotorKind.KRAKEN)
+        MotorConfiguration.builder(
+                ControllerType.valueOf(config.mainShooterControllerType),
+                MotorKind.valueOf(config.mainShooterMotorKind))
             .canId(config.mainShooterCanId)
+            .canBus(config.mainShooterCanBus)
             .inverted(config.mainShooterInverted)
             .gearRatio(config.mainShooterGearRatio)
             .kP(config.mainShooterKp)
@@ -46,13 +52,13 @@ public class ShooterSubsystem extends SubsystemBase {
             .kD(config.mainShooterKd)
             .kV(config.mainShooterKv)
             .kS(config.mainShooterKs)
-            .brakeMode(config.brakeMode)
+            .brakeMode(config.mainShooterBrakeMode)
             .build());
 
     // Create servo
     m_servo = new Servo(config.servoPwmChannel);
 
-    m_velocityToleranceRpm = 50.0; // Default tolerance
+    m_velocityToleranceRpm = config.velocityToleranceRpm;
   }
 
   /**
