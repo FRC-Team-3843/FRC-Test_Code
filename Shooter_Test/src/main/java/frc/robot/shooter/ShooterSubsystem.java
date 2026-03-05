@@ -1,317 +1,328 @@
 package frc.robot.shooter;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.motor.CanMotorWrapper;
-import frc.robot.motor.ControllerType;
+import frc.robot.motor.ControllerPreset;
+import frc.robot.motor.MotorConfig;
 import frc.robot.motor.MotorConfiguration;
-import frc.robot.motor.MotorKind;
+import frc.robot.motor.MotorFactory;
+import frc.robot.motor.MotorSysId;
+import frc.robot.motor.MotorSystemConfig;
+import frc.robot.motor.UnitConverter;
+import frc.robot.motor.UniversalMotor;
 
+/**
+ * Generic motor system subsystem driven by MotorSystemConfig.
+ *
+ * <p>Creates motors dynamically from config. Each motor gets its own SysId routine.
+ * Supports any number of motors and an optional servo.
+ */
 public class ShooterSubsystem extends SubsystemBase {
-  private final CanMotorWrapper m_preshooter;
-  private final CanMotorWrapper m_mainShooter;
+  private final MotorSystemConfig m_config;
+  private final UniversalMotor[] m_motors;
+  private final MotorSysId[] m_sysIds;
+  private final ControllerPreset[] m_presets;
+  private final String[] m_motorNames;
+  private final UnitConverter[] m_converters;
+  @SuppressWarnings("unchecked")
+  private final SendableChooser<String>[] m_chartChoosers;
   private final Servo m_servo;
   private final double m_velocityToleranceRpm;
 
-  private double m_preshooterSetpointRpm = 0.0;
-  private double m_mainShooterSetpointRpm = 0.0;
+  private final double[] m_setpointsRpm;
+  private final boolean[] m_enabled;
 
-  private boolean m_preshooterEnabled = true;
-  private boolean m_mainShooterEnabled = true;
+  public ShooterSubsystem(MotorSystemConfig config) {
+    m_config = config;
+    int count = config.motors.size();
+    m_motors = new UniversalMotor[count];
+    m_sysIds = new MotorSysId[count];
+    m_presets = new ControllerPreset[count];
+    m_motorNames = new String[count];
+    m_converters = new UnitConverter[count];
+    m_chartChoosers = new SendableChooser[count];
+    m_setpointsRpm = new double[count];
+    m_enabled = new boolean[count];
 
-  public ShooterSubsystem(ShooterConfig config) {
-    // Create preshooter motor from config
-    m_preshooter = new CanMotorWrapper(
-        MotorConfiguration.builder(
-                ControllerType.valueOf(config.preshooterControllerType),
-                MotorKind.valueOf(config.preshooterMotorKind))
-            .canId(config.preshooterCanId)
-            .canBus(config.preshooterCanBus)
-            .inverted(config.preshooterInverted)
-            .gearRatio(config.preshooterGearRatio)
-            .kP(config.preshooterKp)
-            .kI(config.preshooterKi)
-            .kD(config.preshooterKd)
-            .kV(config.preshooterKv)
-            .kS(config.preshooterKs)
-            .brakeMode(config.preshooterBrakeMode)
-            .build());
+    for (int i = 0; i < count; i++) {
+      MotorConfig mc = config.motors.get(i);
+      m_motorNames[i] = config.motorPrefix(mc.name);
+      m_presets[i] = mc.getControllerPreset();
+      m_enabled[i] = true;
 
-    // Create main shooter motor from config
-    m_mainShooter = new CanMotorWrapper(
-        MotorConfiguration.builder(
-                ControllerType.valueOf(config.mainShooterControllerType),
-                MotorKind.valueOf(config.mainShooterMotorKind))
-            .canId(config.mainShooterCanId)
-            .canBus(config.mainShooterCanBus)
-            .inverted(config.mainShooterInverted)
-            .gearRatio(config.mainShooterGearRatio)
-            .kP(config.mainShooterKp)
-            .kI(config.mainShooterKi)
-            .kD(config.mainShooterKd)
-            .kV(config.mainShooterKv)
-            .kS(config.mainShooterKs)
-            .brakeMode(config.mainShooterBrakeMode)
-            .build());
+      MotorConfiguration motorConfig = MotorConfiguration.fromMotorConfig(mc);
+      m_motors[i] = MotorFactory.create(motorConfig);
 
-    // Create servo
-    m_servo = new Servo(config.servoPwmChannel);
+      m_sysIds[i] = new MotorSysId(
+          m_motors[i], m_motorNames[i], this,
+          mc.getMechanismType(), m_presets[i], mc);
+
+      m_converters[i] = new UnitConverter(mc.getMechanismType(),
+          mc.wheelDiameter, mc.distancePerRotation, mc.armLength, false);
+
+      // Switchable chart chooser
+      SendableChooser<String> chooser = new SendableChooser<>();
+      chooser.setDefaultOption("RPM", "rpm");
+      chooser.addOption("Current (A)", "current");
+      chooser.addOption("Voltage (V)", "voltage");
+      chooser.addOption("Position (rot)", "position");
+      chooser.addOption("Temperature (C)", "temperature");
+      if (m_converters[i].hasGeometry()) {
+        chooser.addOption("Real Speed", "realspeed");
+      }
+      m_chartChoosers[i] = chooser;
+      SmartDashboard.putData(m_motorNames[i] + "/ChartType", chooser);
+    }
+
+    // Optional servo
+    if (config.servoChannel >= 0) {
+      m_servo = new Servo(config.servoChannel);
+    } else {
+      m_servo = null;
+    }
 
     m_velocityToleranceRpm = config.velocityToleranceRpm;
   }
 
-  /**
-   * Sets the velocity setpoints for both shooter motors in RPM.
-   *
-   * @param preshooterRpm Preshooter target velocity in RPM
-   * @param mainShooterRpm Main shooter target velocity in RPM
-   */
-  public void setVelocities(double preshooterRpm, double mainShooterRpm) {
-    m_preshooterSetpointRpm = preshooterRpm;
-    m_mainShooterSetpointRpm = mainShooterRpm;
+  /** Returns the number of motors in this system. */
+  public int getMotorCount() {
+    return m_motors.length;
+  }
 
-    // Convert RPM to RPS for motor control, only if enabled
-    if (m_preshooterEnabled) {
-      m_preshooter.setVelocityRps(preshooterRpm / 60.0);
-    }
-    if (m_mainShooterEnabled) {
-      m_mainShooter.setVelocityRps(mainShooterRpm / 60.0);
+  /** Returns the motor at the given index. */
+  public UniversalMotor getMotor(int index) {
+    return m_motors[index];
+  }
+
+  /** Returns the dashboard name for the motor at the given index. */
+  public String getMotorName(int index) {
+    return m_motorNames[index];
+  }
+
+  /** Returns the MotorSysId for the motor at the given index. */
+  public MotorSysId getSysId(int index) {
+    return m_sysIds[index];
+  }
+
+  /** Returns the ControllerPreset for the motor at the given index. */
+  public ControllerPreset getPreset(int index) {
+    return m_presets[index];
+  }
+
+  /** Returns the config that created this subsystem. */
+  public MotorSystemConfig getConfig() {
+    return m_config;
+  }
+
+  /**
+   * Sets velocity for a specific motor by index.
+   *
+   * @param index motor index
+   * @param rpm target velocity in RPM
+   */
+  public void setVelocity(int index, double rpm) {
+    m_setpointsRpm[index] = rpm;
+    if (m_enabled[index]) {
+      m_motors[index].setVelocityRps(rpm / 60.0);
     }
   }
 
   /**
-   * Enables or disables the preshooter motor.
-   *
-   * @param enabled True to enable, false to disable
+   * Sets velocities for all motors at once. Array length must match motor count.
    */
-  public void setPreshooterEnabled(boolean enabled) {
-    m_preshooterEnabled = enabled;
+  public void setVelocities(double... rpms) {
+    for (int i = 0; i < Math.min(rpms.length, m_motors.length); i++) {
+      setVelocity(i, rpms[i]);
+    }
+  }
+
+  /** Enables or disables a motor by index. */
+  public void setEnabled(int index, boolean enabled) {
+    m_enabled[index] = enabled;
     if (!enabled) {
-      m_preshooter.stop();
-      m_preshooterSetpointRpm = 0.0;
+      m_motors[index].stop();
+      m_setpointsRpm[index] = 0.0;
+    }
+  }
+
+  /** Returns whether the motor at the given index is enabled. */
+  public boolean isEnabled(int index) {
+    return m_enabled[index];
+  }
+
+  /** Returns the current velocity in RPM for a motor by index. */
+  public double getVelocityRpm(int index) {
+    return m_motors[index].getVelocityRps() * 60.0;
+  }
+
+  /** Returns whether a motor is within tolerance of its setpoint. */
+  public boolean isAtSetpoint(int index) {
+    if (m_setpointsRpm[index] == 0.0) return false;
+    return Math.abs(getVelocityRpm(index) - m_setpointsRpm[index]) < m_velocityToleranceRpm;
+  }
+
+  /** Returns the current draw for a motor by index. */
+  public double getCurrent(int index) {
+    return m_motors[index].getCurrent();
+  }
+
+  /**
+   * Sets position for a specific motor by index.
+   *
+   * @param index motor index
+   * @param rotations target position in rotations
+   */
+  public void setPosition(int index, double rotations) {
+    if (m_enabled[index]) {
+      m_motors[index].setPositionRotations(rotations);
     }
   }
 
   /**
-   * Enables or disables the main shooter motor.
+   * Sets profiled (trapezoidal) position for a specific motor by index.
    *
-   * @param enabled True to enable, false to disable
+   * @param index motor index
+   * @param rotations target position in rotations
    */
-  public void setMainShooterEnabled(boolean enabled) {
-    m_mainShooterEnabled = enabled;
-    if (!enabled) {
-      m_mainShooter.stop();
-      m_mainShooterSetpointRpm = 0.0;
+  public void setProfiledPosition(int index, double rotations) {
+    if (m_enabled[index]) {
+      m_motors[index].setProfiledPosition(rotations);
     }
   }
 
   /**
-   * Checks if preshooter is enabled.
-   *
-   * @return True if enabled
+   * Updates velocity PID (Slot0) for a motor by index (hot-reload).
    */
-  public boolean isPreshooterEnabled() {
-    return m_preshooterEnabled;
+  public void updatePid(int index, double kP, double kI, double kD,
+                         double kV, double kS, double kA, double kG) {
+    m_motors[index].updatePidConfig(kP, kI, kD, kV, kS, kA, kG);
   }
 
   /**
-   * Checks if main shooter is enabled.
-   *
-   * @return True if enabled
+   * Updates position PID (Slot1) for a motor by index (hot-reload).
    */
-  public boolean isMainShooterEnabled() {
-    return m_mainShooterEnabled;
+  public void updatePositionPid(int index, double kP, double kD,
+                                 double kV, double kS, double kA, double kG) {
+    m_motors[index].updatePositionPid(kP, kD, kV, kS, kA, kG);
   }
 
-  /**
-   * Sets the servo position (0.0 to 1.0).
-   *
-   * @param position Servo position
-   */
+  /** Sets servo position (0.0 to 1.0). No-op if no servo configured. */
   public void setServoPosition(double position) {
-    m_servo.set(position);
+    if (m_servo != null) {
+      m_servo.set(position);
+    }
   }
 
-  /**
-   * Stops both shooter motors.
-   */
+  /** Stops all motors. */
   public void stop() {
-    m_preshooter.stop();
-    m_mainShooter.stop();
-    m_preshooterSetpointRpm = 0.0;
-    m_mainShooterSetpointRpm = 0.0;
-  }
-
-  /**
-   * Gets the current preshooter velocity in RPM.
-   *
-   * @return Preshooter velocity in RPM
-   */
-  public double getPreshooterVelocityRpm() {
-    return m_preshooter.getVelocityRps() * 60.0;
-  }
-
-  /**
-   * Gets the current main shooter velocity in RPM.
-   *
-   * @return Main shooter velocity in RPM
-   */
-  public double getMainShooterVelocityRpm() {
-    return m_mainShooter.getVelocityRps() * 60.0;
-  }
-
-  /**
-   * Checks if preshooter is within tolerance of setpoint.
-   *
-   * @return True if preshooter is at setpoint
-   */
-  public boolean isPreshooterAtSetpoint() {
-    if (m_preshooterSetpointRpm == 0.0) {
-      return false;
-    }
-    double error = Math.abs(getPreshooterVelocityRpm() - m_preshooterSetpointRpm);
-    return error < m_velocityToleranceRpm;
-  }
-
-  /**
-   * Checks if main shooter is within tolerance of setpoint.
-   *
-   * @return True if main shooter is at setpoint
-   */
-  public boolean isMainShooterAtSetpoint() {
-    if (m_mainShooterSetpointRpm == 0.0) {
-      return false;
-    }
-    double error = Math.abs(getMainShooterVelocityRpm() - m_mainShooterSetpointRpm);
-    return error < m_velocityToleranceRpm;
-  }
-
-  /**
-   * Updates preshooter PID configuration (hot-reload).
-   *
-   * @param kP Proportional gain
-   * @param kI Integral gain
-   * @param kD Derivative gain
-   * @param kV Velocity feedforward
-   * @param kS Static friction feedforward
-   */
-  public void updatePreshooterPid(double kP, double kI, double kD, double kV, double kS) {
-    m_preshooter.updatePidConfig(kP, kI, kD, kV, kS);
-  }
-
-  /**
-   * Updates main shooter PID configuration (hot-reload).
-   *
-   * @param kP Proportional gain
-   * @param kI Integral gain
-   * @param kD Derivative gain
-   * @param kV Velocity feedforward
-   * @param kS Static friction feedforward
-   */
-  public void updateMainShooterPid(double kP, double kI, double kD, double kV, double kS) {
-    m_mainShooter.updatePidConfig(kP, kI, kD, kV, kS);
-  }
-
-  /**
-   * Sets raw voltage to preshooter motor (for characterization).
-   *
-   * @param volts Voltage to apply
-   */
-  public void setPreshooterVoltage(double volts) {
-    if (m_preshooterEnabled) {
-      m_preshooter.setVoltage(volts);
+    for (int i = 0; i < m_motors.length; i++) {
+      m_motors[i].stop();
+      m_setpointsRpm[i] = 0.0;
     }
   }
 
-  /**
-   * Sets raw voltage to main shooter motor (for characterization).
-   *
-   * @param volts Voltage to apply
-   */
-  public void setMainShooterVoltage(double volts) {
-    if (m_mainShooterEnabled) {
-      m_mainShooter.setVoltage(volts);
+  /** Returns the SysId routine with analysis command for a motor by index. */
+  public Command sysIdWithAnalysis(int index) {
+    return m_sysIds[index].fullRoutineWithAnalysis();
+  }
+
+  /** Returns the SysId routine (without analysis) for a motor by index. */
+  public Command sysId(int index) {
+    return m_sysIds[index].fullRoutine();
+  }
+
+  // ─── Convenience methods for 2-motor shooter ─────────────────────
+
+  /** Sets both shooter motor velocities (convenience for 2-motor setup). */
+  public void setShooterVelocities(double preshooterRpm, double mainShooterRpm) {
+    if (m_motors.length >= 2) {
+      setVelocity(0, preshooterRpm);
+      setVelocity(1, mainShooterRpm);
     }
-  }
-
-  /**
-   * Gets applied voltage for preshooter (for characterization).
-   *
-   * @return Applied voltage in volts
-   */
-  public double getPreshooterVoltage() {
-    return m_preshooter.getAppliedVoltage();
-  }
-
-  /**
-   * Gets applied voltage for main shooter (for characterization).
-   *
-   * @return Applied voltage in volts
-   */
-  public double getMainShooterVoltage() {
-    return m_mainShooter.getAppliedVoltage();
-  }
-
-  /**
-   * Gets preshooter current (for characterization).
-   *
-   * @return Current in amps
-   */
-  public double getPreshooterCurrent() {
-    return m_preshooter.getCurrent();
-  }
-
-  /**
-   * Gets main shooter current (for characterization).
-   *
-   * @return Current in amps
-   */
-  public double getMainShooterCurrent() {
-    return m_mainShooter.getCurrent();
-  }
-
-  /**
-   * Gets preshooter velocity in RPS (for characterization).
-   *
-   * @return Velocity in rotations per second
-   */
-  public double getPreshooterVelocityRps() {
-    return m_preshooter.getVelocityRps();
-  }
-
-  /**
-   * Gets main shooter velocity in RPS (for characterization).
-   *
-   * @return Velocity in rotations per second
-   */
-  public double getMainShooterVelocityRps() {
-    return m_mainShooter.getVelocityRps();
   }
 
   @Override
   public void periodic() {
-    // Read enable toggles from dashboard
-    m_preshooterEnabled = SmartDashboard.getBoolean("Shooter/Preshooter/Enabled", true);
-    m_mainShooterEnabled = SmartDashboard.getBoolean("Shooter/MainShooter/Enabled", true);
+    boolean useMetric = SmartDashboard.getBoolean(
+        m_config.systemName + "/UseMetric", false);
 
-    // Publish telemetry to SmartDashboard using hierarchical paths for Elastic Dashboard
-    SmartDashboard.putNumber("Shooter/Preshooter/ActualRPM", m_preshooterEnabled ? getPreshooterVelocityRpm() : 0.0);
-    SmartDashboard.putNumber("Shooter/MainShooter/ActualRPM", m_mainShooterEnabled ? getMainShooterVelocityRpm() : 0.0);
-    SmartDashboard.putBoolean("Shooter/Preshooter/AtSetpoint", m_preshooterEnabled && isPreshooterAtSetpoint());
-    SmartDashboard.putBoolean("Shooter/MainShooter/AtSetpoint", m_mainShooterEnabled && isMainShooterAtSetpoint());
-    SmartDashboard.putNumber("Shooter/Preshooter/SetpointRPM", m_preshooterSetpointRpm);
-    SmartDashboard.putNumber("Shooter/MainShooter/SetpointRPM", m_mainShooterSetpointRpm);
-    SmartDashboard.putNumber("Shooter/Preshooter/CurrentAmps", m_preshooterEnabled ? getPreshooterCurrent() : 0.0);
-    SmartDashboard.putNumber("Shooter/MainShooter/CurrentAmps", m_mainShooterEnabled ? getMainShooterCurrent() : 0.0);
+    for (int i = 0; i < m_motors.length; i++) {
+      String prefix = m_motorNames[i] + "/";
+      boolean en = m_enabled[i];
+
+      // Read enable toggles from dashboard
+      m_enabled[i] = SmartDashboard.getBoolean(prefix + "Enabled", true);
+      en = m_enabled[i];
+
+      // Core telemetry (always published for text displays)
+      double rpm = en ? getVelocityRpm(i) : 0.0;
+      SmartDashboard.putNumber(prefix + "ActualRPM", rpm);
+      SmartDashboard.putBoolean(prefix + "AtSetpoint", en && isAtSetpoint(i));
+      SmartDashboard.putNumber(prefix + "SetpointRPM", m_setpointsRpm[i]);
+      SmartDashboard.putNumber(prefix + "CurrentAmps", en ? getCurrent(i) : 0.0);
+
+      // Real-world unit telemetry
+      m_converters[i].setUseMetric(useMetric);
+      if (m_converters[i].hasGeometry()) {
+        double rps = en ? m_motors[i].getVelocityRps() : 0.0;
+        double rot = en ? m_motors[i].getPositionRotations() : 0.0;
+        SmartDashboard.putNumber(prefix + "RealSpeed",
+            m_converters[i].convertVelocity(rps));
+        SmartDashboard.putString(prefix + "SpeedUnit",
+            m_converters[i].velocityUnit());
+        SmartDashboard.putNumber(prefix + "RealPosition",
+            m_converters[i].convertPosition(rot));
+        SmartDashboard.putString(prefix + "PosUnit",
+            m_converters[i].positionUnit());
+      }
+
+      // Switchable chart: read chooser selection, publish to single graph topic
+      String chartType = m_chartChoosers[i].getSelected();
+      if (chartType == null) chartType = "rpm";
+      double chartValue;
+      String chartLabel;
+      switch (chartType) {
+        case "current":
+          chartValue = en ? getCurrent(i) : 0.0;
+          chartLabel = "Current (A)";
+          break;
+        case "voltage":
+          chartValue = en ? m_motors[i].getAppliedVoltage() : 0.0;
+          chartLabel = "Voltage (V)";
+          break;
+        case "position":
+          chartValue = en ? m_motors[i].getPositionRotations() : 0.0;
+          chartLabel = "Position (rot)";
+          break;
+        case "temperature":
+          chartValue = en ? m_motors[i].getTemperature() : 0.0;
+          chartLabel = "Temperature (C)";
+          break;
+        case "realspeed":
+          double rps = en ? m_motors[i].getVelocityRps() : 0.0;
+          chartValue = m_converters[i].convertVelocity(rps);
+          chartLabel = "Speed (" + m_converters[i].velocityUnit() + ")";
+          break;
+        default: // "rpm"
+          chartValue = rpm;
+          chartLabel = "RPM";
+          break;
+      }
+      SmartDashboard.putNumber(prefix + "ChartValue", chartValue);
+      SmartDashboard.putString(prefix + "ChartLabel", chartLabel);
+    }
   }
 
-  /**
-   * Closes and releases all hardware resources.
-   */
+  /** Closes and releases all hardware resources. */
   public void close() {
-    m_preshooter.close();
-    m_mainShooter.close();
-    m_servo.close();
+    for (UniversalMotor motor : m_motors) {
+      motor.close();
+    }
+    if (m_servo != null) {
+      m_servo.close();
+    }
   }
 }

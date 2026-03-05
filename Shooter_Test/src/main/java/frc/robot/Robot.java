@@ -11,22 +11,22 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.net.WebServer;
-import frc.robot.shooter.ShooterConfig;
-import frc.robot.shooter.ShooterConfigLoader;
+import frc.robot.motor.MotorSystemConfig;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private final RobotContainer m_robotContainer;
 
   public Robot() {
-    ShooterConfig config = ShooterConfigLoader.loadConfigOrDefault("shooter-config.json");
+    MotorSystemConfig config = MotorSystemConfig.loadOrDefault("motor-config.json");
 
-    if (config.enableMotorLogging) {
+    if (config.enableLogging) {
       DataLogManager.start();
       DriverStation.startDataLog(DataLogManager.getLog());
     }
 
     // Serve deploy directory on port 5800 for Elastic remote layout loading
+    // elastic-layout.json is generated at build time by DashboardGenerator (Gradle task)
     WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
     m_robotContainer = new RobotContainer(config);
@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    m_robotContainer.checkDashboardToggles();
   }
 
   @Override

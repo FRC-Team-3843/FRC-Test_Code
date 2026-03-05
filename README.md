@@ -112,6 +112,29 @@ Base tank/arcade chassis project for testing differential drive systems.
 
 ---
 
+### Shooter_Test
+**Universal Motor System with On-Robot SysId**
+
+Config-driven motor test bench with on-robot system identification and automatic dashboard generation.
+
+**Features:**
+- JSON-configured motor system (any number of motors, any controller type)
+- On-robot SysId matching WPILib's desktop tool (acceleration-based OLS)
+- Automatic Elastic Dashboard layout generation from config
+- Hot-reload PID tuning with save-to-JSON
+- SysId results auto-applied to motors and persisted
+- Servo control with named positions
+
+**Use Cases:**
+- Characterize any motor/mechanism (shooter, elevator, arm)
+- Tune PID without redeploying code
+- Generate dashboard layouts automatically
+- Validate motor configurations before competition
+
+[View Documentation →](Shooter_Test/README.md)
+
+---
+
 ### _common
 **Shared Code Library**
 
@@ -222,4 +245,4 @@ When adding or modifying test projects:
 
 ---
 
-**Last Updated:** 2026-01-26
+**Last Updated:** 2026-03-03

@@ -105,3 +105,20 @@ wpi.java.configureTestTasks(test)
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+
+// Generate elastic-layout.json from motor-config.json before deploy
+task generateDashboard(type: JavaExec) {
+    description = 'Generates elastic-layout.json from motor-config.json'
+    group = 'FRC'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'frc.robot.motor.DashboardGenerator'
+    args = [
+        file('src/main/deploy/motor-config.json').absolutePath,
+        file('src/main/deploy/elastic-layout.json').absolutePath
+    ]
+}
+
+generateDashboard.dependsOn classes
+tasks.named('deployfrcStaticFileDeployroborio').configure {
+    dependsOn generateDashboard
+}

@@ -8,170 +8,415 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.CharacterizeShooterCommand;
-import frc.robot.shooter.ShooterConfig;
-import frc.robot.shooter.ShooterConfigLoader;
+import frc.robot.motor.ControllerPreset;
+import frc.robot.motor.MechanismType;
+import frc.robot.motor.MotorConfig;
+import frc.robot.motor.MotorSystemConfig;
+import frc.robot.motor.SysIdAnalyzer;
+import frc.robot.motor.SysIdParams;
+import frc.robot.motor.UnitConverter;
 import frc.robot.shooter.ShooterSubsystem;
 
 public class RobotContainer {
-  private static final String CONFIG_FILENAME = "shooter-config.json";
+  private static final String CONFIG_FILENAME = "motor-config.json";
 
-  private final ShooterConfig m_config;
+  private final MotorSystemConfig m_config;
   private final CommandXboxController m_driver;
   private final ShooterSubsystem m_shooter;
+  private final boolean[] m_dashboardRunning;  // tracks per-motor dashboard run state
 
-  public RobotContainer(ShooterConfig config) {
+  public RobotContainer(MotorSystemConfig config) {
     m_config = config;
-    m_driver = new CommandXboxController(m_config.driverControllerPort);
-    m_shooter = new ShooterSubsystem(m_config);
+    m_driver = new CommandXboxController(config.driverControllerPort);
+    m_shooter = new ShooterSubsystem(config);
+    m_dashboardRunning = new boolean[config.motors.size()];
 
-    // Publish initial PID tuning values to SmartDashboard
-    SmartDashboard.putNumber("Shooter/Preshooter/PID/kP", m_config.preshooterKp);
-    SmartDashboard.putNumber("Shooter/Preshooter/PID/kI", m_config.preshooterKi);
-    SmartDashboard.putNumber("Shooter/Preshooter/PID/kD", m_config.preshooterKd);
-    SmartDashboard.putNumber("Shooter/Preshooter/PID/kV", m_config.preshooterKv);
-    SmartDashboard.putNumber("Shooter/Preshooter/PID/kS", m_config.preshooterKs);
-
-    SmartDashboard.putNumber("Shooter/MainShooter/PID/kP", m_config.mainShooterKp);
-    SmartDashboard.putNumber("Shooter/MainShooter/PID/kI", m_config.mainShooterKi);
-    SmartDashboard.putNumber("Shooter/MainShooter/PID/kD", m_config.mainShooterKd);
-    SmartDashboard.putNumber("Shooter/MainShooter/PID/kV", m_config.mainShooterKv);
-    SmartDashboard.putNumber("Shooter/MainShooter/PID/kS", m_config.mainShooterKs);
-
-    // Publish initial setpoint values
-    SmartDashboard.putNumber("Shooter/Preshooter/Setpoint1_RPM", m_config.preshooterSetpoint1Rpm);
-    SmartDashboard.putNumber("Shooter/Preshooter/Setpoint2_RPM", m_config.preshooterSetpoint2Rpm);
-    SmartDashboard.putNumber("Shooter/MainShooter/Setpoint1_RPM", m_config.mainShooterSetpoint1Rpm);
-    SmartDashboard.putNumber("Shooter/MainShooter/Setpoint2_RPM", m_config.mainShooterSetpoint2Rpm);
-
-    // Publish servo position values
-    SmartDashboard.putNumber("Shooter/Servo/Position1", m_config.servoPosition1);
-    SmartDashboard.putNumber("Shooter/Servo/Position2", m_config.servoPosition2);
-
-    // Motor enable/disable toggles (default both enabled)
-    SmartDashboard.putBoolean("Shooter/Preshooter/Enabled", true);
-    SmartDashboard.putBoolean("Shooter/MainShooter/Enabled", true);
-
-    // Apply PID button indicator
-    SmartDashboard.putBoolean("Shooter/ApplyPID", false);
-
-    configureTelemetry();
+    initDashboard();
     configureBindings();
   }
 
-  private void configureTelemetry() {
-    SmartDashboard.putString("Shooter/Controls",
-        m_config.buttonSetpoint1 + "=SP1 | " +
-        m_config.buttonSetpoint2 + "=SP2 | " +
-        m_config.buttonApplyPid + "=Apply+Save | " +
-        m_config.buttonCharPreshooter + "=TunePre | " +
-        m_config.buttonCharMainShooter + "=TuneMain | " +
-        m_config.buttonServoPos1 + "=Servo1 | " +
-        m_config.buttonServoPos2 + "=Servo2");
+  /** Initializes all dashboard fields for each motor in the config. */
+  private void initDashboard() {
+    String sys = m_config.systemName;
 
-    // Characterization status widgets
-    SmartDashboard.putString("Shooter/Tuning/Status", "Ready");
-    SmartDashboard.putNumber("Shooter/Tuning/Phase", 0);
-    SmartDashboard.putNumber("Shooter/Tuning/kS", 0.0);
-    SmartDashboard.putNumber("Shooter/Tuning/kV", 0.0);
-    SmartDashboard.putNumber("Shooter/Tuning/kP", 0.0);
-    SmartDashboard.putNumber("Shooter/Tuning/SteadyStateError_RPM", 0.0);
+    for (int i = 0; i < m_config.motors.size(); i++) {
+      MotorConfig mc = m_config.motors.get(i);
+      String prefix = sys + "/" + mc.name + "/";
+
+      // PID tuning fields (editable)
+      SmartDashboard.putNumber(prefix + "PID/kP", mc.kP);
+      SmartDashboard.putNumber(prefix + "PID/kI", mc.kI);
+      SmartDashboard.putNumber(prefix + "PID/kD", mc.kD);
+      SmartDashboard.putNumber(prefix + "PID/kV", mc.kV);
+      SmartDashboard.putNumber(prefix + "PID/kS", mc.kS);
+      SmartDashboard.putNumber(prefix + "PID/kA", mc.kA);
+      SmartDashboard.putNumber(prefix + "PID/kG", mc.kG);
+
+      // Enable toggle
+      SmartDashboard.putBoolean(prefix + "Enabled", true);
+
+      // SysId result display fields
+      SmartDashboard.putString(prefix + "SysId/Status", "Idle");
+      SmartDashboard.putNumber(prefix + "SysId/kS", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/kV", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/kA", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/kG", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/R2_Accel", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/R2_SimVel", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/RMSE", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/Samples", 0);
+      SmartDashboard.putNumber(prefix + "SysId/kP_vel", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/kP_pos", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/kD_pos", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/AutoVelThresh", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/AutoQv", 0.0);
+
+      // SysId analysis parameters (editable)
+      ControllerPreset preset = mc.getControllerPreset();
+      SysIdParams.publishDefaults(prefix + "SysId/", preset);
+
+      // Apply toggles
+      SmartDashboard.putBoolean(prefix + "SysId/ApplyResults", false);
+      SmartDashboard.putBoolean(prefix + "ApplyPID", false);
+
+      // Dashboard run controls
+      SmartDashboard.putBoolean(prefix + "Run", false);
+      SmartDashboard.putNumber(prefix + "RunTarget", 0.0);
+      SmartDashboard.putString(prefix + "ControlMode", "velocity");
+
+      // Position PID fields
+      SmartDashboard.putNumber(prefix + "PID/kP_pos", mc.kP_pos);
+      SmartDashboard.putNumber(prefix + "PID/kD_pos", mc.kD_pos);
+
+      // Motion profiling fields (editable)
+      SmartDashboard.putNumber(prefix + "Motion/CruiseVel", mc.motionCruiseVelocity);
+      SmartDashboard.putNumber(prefix + "Motion/Accel", mc.motionAcceleration);
+      SmartDashboard.putNumber(prefix + "Motion/Jerk", mc.motionJerk);
+
+      // Soft limits (editable)
+      double fwdLimit = mc.forwardLimit == Double.MAX_VALUE ? 0.0 : mc.forwardLimit;
+      double revLimit = mc.reverseLimit == -Double.MAX_VALUE ? 0.0 : mc.reverseLimit;
+      SmartDashboard.putNumber(prefix + "Limits/Forward", fwdLimit);
+      SmartDashboard.putNumber(prefix + "Limits/Reverse", revLimit);
+
+      // Current limit (editable)
+      SmartDashboard.putNumber(prefix + "CurrentLimit", mc.currentLimit);
+
+      // Physical estimate placeholders
+      SmartDashboard.putNumber(prefix + "SysId/Est_Inertia", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/Est_Friction", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/Est_Mass_kg", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/Est_Efficiency", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/Est_MaxAccel", 0.0);
+      SmartDashboard.putNumber(prefix + "SysId/Est_FreeSpeed", 0.0);
+
+      // Info
+      SmartDashboard.putString(prefix + "MechanismType", mc.mechanismType);
+      SmartDashboard.putString(prefix + "ControllerType", mc.controllerType);
+
+      // Geometry summary
+      UnitConverter uc = new UnitConverter(mc.getMechanismType(),
+          mc.wheelDiameter, mc.distancePerRotation, mc.armLength, false);
+      SmartDashboard.putString(prefix + "Geometry", uc.geometrySummary());
+
+      // Workflow hint
+      String hint = getWorkflowHint(mc.getMechanismType());
+      SmartDashboard.putString(prefix + "WorkflowHint", hint);
+    }
+
+    // Setpoints (editable)
+    for (var entry : m_config.setpoints.entrySet()) {
+      SmartDashboard.putNumber(sys + "/Setpoints/" + entry.getKey(), entry.getValue());
+    }
+
+    // Servo positions (editable)
+    for (var entry : m_config.servoPositions.entrySet()) {
+      SmartDashboard.putNumber(sys + "/Servo/" + entry.getKey(), entry.getValue());
+    }
+
+    // UseMetric toggle (default: false = imperial)
+    SmartDashboard.putBoolean(sys + "/UseMetric", false);
+
+    // Controls help
+    StringBuilder controls = new StringBuilder();
+    for (var entry : m_config.buttonBindings.entrySet()) {
+      if (controls.length() > 0) controls.append(" | ");
+      controls.append(entry.getValue()).append("=").append(entry.getKey());
+    }
+    SmartDashboard.putString(sys + "/Controls", controls.toString());
   }
 
   private void configureBindings() {
-    // Setpoint 1 + servo position 1
-    resolveButton(m_config.buttonSetpoint1).whileTrue(Commands.run(() -> {
-      double preRpm = SmartDashboard.getNumber("Shooter/Preshooter/Setpoint1_RPM", m_config.preshooterSetpoint1Rpm);
-      double mainRpm = SmartDashboard.getNumber("Shooter/MainShooter/Setpoint1_RPM", m_config.mainShooterSetpoint1Rpm);
-      double servoPos = SmartDashboard.getNumber("Shooter/Servo/Position1", m_config.servoPosition1);
+    String sys = m_config.systemName;
 
-      m_shooter.setVelocities(preRpm, mainRpm);
-      m_shooter.setServoPosition(servoPos);
-    }, m_shooter)).onFalse(Commands.runOnce(m_shooter::stop, m_shooter));
+    // Setpoint 1: run all motors at setpoint1 values + servo position1
+    resolveButton(m_config.buttonBindings.getOrDefault("setpoint1", "A"))
+        .whileTrue(Commands.run(() -> {
+          for (int i = 0; i < m_config.motors.size(); i++) {
+            String key = "setpoint1_" + m_config.motors.get(i).name;
+            double rpm = SmartDashboard.getNumber(sys + "/Setpoints/" + key,
+                m_config.setpoints.getOrDefault(key, 0.0));
+            m_shooter.setVelocity(i, rpm);
+          }
+          Double servoPos = readServoPosition("position1");
+          if (servoPos != null) m_shooter.setServoPosition(servoPos);
+        }, m_shooter))
+        .onFalse(Commands.runOnce(m_shooter::stop, m_shooter));
 
-    // Setpoint 2 + servo position 2
-    resolveButton(m_config.buttonSetpoint2).whileTrue(Commands.run(() -> {
-      double preRpm = SmartDashboard.getNumber("Shooter/Preshooter/Setpoint2_RPM", m_config.preshooterSetpoint2Rpm);
-      double mainRpm = SmartDashboard.getNumber("Shooter/MainShooter/Setpoint2_RPM", m_config.mainShooterSetpoint2Rpm);
-      double servoPos = SmartDashboard.getNumber("Shooter/Servo/Position2", m_config.servoPosition2);
+    // Setpoint 2
+    resolveButton(m_config.buttonBindings.getOrDefault("setpoint2", "B"))
+        .whileTrue(Commands.run(() -> {
+          for (int i = 0; i < m_config.motors.size(); i++) {
+            String key = "setpoint2_" + m_config.motors.get(i).name;
+            double rpm = SmartDashboard.getNumber(sys + "/Setpoints/" + key,
+                m_config.setpoints.getOrDefault(key, 0.0));
+            m_shooter.setVelocity(i, rpm);
+          }
+          Double servoPos = readServoPosition("position2");
+          if (servoPos != null) m_shooter.setServoPosition(servoPos);
+        }, m_shooter))
+        .onFalse(Commands.runOnce(m_shooter::stop, m_shooter));
 
-      m_shooter.setVelocities(preRpm, mainRpm);
-      m_shooter.setServoPosition(servoPos);
-    }, m_shooter)).onFalse(Commands.runOnce(m_shooter::stop, m_shooter));
+    // Apply PID from dashboard for all motors and save to JSON
+    resolveButton(m_config.buttonBindings.getOrDefault("applyPid", "X"))
+        .onTrue(Commands.runOnce(() -> {
+          applyPidConfig();
+          for (int i = 0; i < m_config.motors.size(); i++) {
+            SmartDashboard.putBoolean(m_shooter.getMotorName(i) + "/ApplyPID", false);
+          }
+        }));
 
-    // Apply PID configuration from dashboard and save to JSON
-    resolveButton(m_config.buttonApplyPid).onTrue(Commands.runOnce(() -> {
-      applyPidConfig();
-      SmartDashboard.putBoolean("Shooter/ApplyPID", false);
+    // SysId per motor — bind each motor's SysId to its configured button
+    for (int i = 0; i < m_config.motors.size(); i++) {
+      String motorName = m_config.motors.get(i).name;
+      String buttonKey = "sysId_" + motorName;
+      String button = m_config.buttonBindings.get(buttonKey);
+      if (button != null) {
+        final int idx = i;
+        resolveButton(button).whileTrue(m_shooter.sysIdWithAnalysis(idx));
+      }
+    }
+
+    // Servo positions
+    String servoBtn1 = m_config.buttonBindings.getOrDefault("servoPos1", "LEFT_BUMPER");
+    resolveButton(servoBtn1).onTrue(Commands.runOnce(() -> {
+      Double pos = readServoPosition("position1");
+      if (pos != null) m_shooter.setServoPosition(pos);
     }));
 
-    // Characterize preshooter (hold button for ~20 seconds)
-    resolveButton(m_config.buttonCharPreshooter).whileTrue(new CharacterizeShooterCommand(m_shooter, true));
-
-    // Characterize main shooter (hold button for ~20 seconds)
-    resolveButton(m_config.buttonCharMainShooter).whileTrue(new CharacterizeShooterCommand(m_shooter, false));
-
-    // Servo to position 1 (no motors)
-    resolveButton(m_config.buttonServoPos1).onTrue(Commands.runOnce(() -> {
-      double servoPos = SmartDashboard.getNumber("Shooter/Servo/Position1", m_config.servoPosition1);
-      m_shooter.setServoPosition(servoPos);
-    }));
-
-    // Servo to position 2 (no motors)
-    resolveButton(m_config.buttonServoPos2).onTrue(Commands.runOnce(() -> {
-      double servoPos = SmartDashboard.getNumber("Shooter/Servo/Position2", m_config.servoPosition2);
-      m_shooter.setServoPosition(servoPos);
+    String servoBtn2 = m_config.buttonBindings.getOrDefault("servoPos2", "RIGHT_BUMPER");
+    resolveButton(servoBtn2).onTrue(Commands.runOnce(() -> {
+      Double pos = readServoPosition("position2");
+      if (pos != null) m_shooter.setServoPosition(pos);
     }));
   }
 
+  /** Reads servo position from dashboard, returns null if no servo configured. */
+  private Double readServoPosition(String posName) {
+    if (m_config.servoChannel < 0) return null;
+    String key = m_config.systemName + "/Servo/" + posName;
+    double defaultVal = m_config.servoPositions.getOrDefault(posName, 0.5);
+    return SmartDashboard.getNumber(key, defaultVal);
+  }
+
+  /**
+   * Called periodically to check per-motor dashboard toggles and run controls.
+   */
+  public void checkDashboardToggles() {
+    for (int i = 0; i < m_config.motors.size(); i++) {
+      String motorPrefix = m_shooter.getMotorName(i) + "/";
+
+      // Per-motor Apply PID toggle
+      if (SmartDashboard.getBoolean(motorPrefix + "ApplyPID", false)) {
+        SmartDashboard.putBoolean(motorPrefix + "ApplyPID", false);
+        applyPidForMotor(i);
+      }
+
+      // Per-motor Apply SysId toggle
+      if (SmartDashboard.getBoolean(motorPrefix + "SysId/ApplyResults", false)) {
+        SmartDashboard.putBoolean(motorPrefix + "SysId/ApplyResults", false);
+        applySysIdResults(i);
+      }
+
+      // Dashboard run toggle — hold true to run motor, stop on release
+      boolean runToggle = SmartDashboard.getBoolean(motorPrefix + "Run", false);
+      if (runToggle) {
+        String mode = SmartDashboard.getString(motorPrefix + "ControlMode", "velocity");
+        double target = SmartDashboard.getNumber(motorPrefix + "RunTarget", 0.0);
+        switch (mode) {
+          case "position":
+            m_shooter.setPosition(i, target);
+            break;
+          case "profile":
+            m_shooter.setProfiledPosition(i, target);
+            break;
+          default: // "velocity"
+            m_shooter.setVelocity(i, target);
+            break;
+        }
+        m_dashboardRunning[i] = true;
+      } else if (m_dashboardRunning[i]) {
+        m_shooter.setVelocity(i, 0.0);
+        m_shooter.getMotor(i).stop();
+        m_dashboardRunning[i] = false;
+      }
+    }
+  }
+
+  /** Applies SysId-computed values to a motor and saves config. */
+  private void applySysIdResults(int motorIndex) {
+    SysIdAnalyzer.AnalysisResult result = m_shooter.getSysId(motorIndex).getLastResult();
+    String name = m_config.motors.get(motorIndex).name;
+
+    if (result == null || !result.valid) {
+      System.out.println("No valid SysId results to apply for " + name);
+      return;
+    }
+
+    MotorConfig mc = m_config.motors.get(motorIndex);
+    String pidPrefix = m_shooter.getMotorName(motorIndex) + "/PID/";
+
+    // Read kI from dashboard (not changed by SysId)
+    double kI = SmartDashboard.getNumber(pidPrefix + "kI", mc.kI);
+
+    // Update dashboard PID fields with SysId results
+    SmartDashboard.putNumber(pidPrefix + "kP", result.kP_velocity);
+    SmartDashboard.putNumber(pidPrefix + "kD", 0.0);
+    SmartDashboard.putNumber(pidPrefix + "kV", result.kV);
+    SmartDashboard.putNumber(pidPrefix + "kS", result.kS);
+    SmartDashboard.putNumber(pidPrefix + "kA", result.kA);
+    SmartDashboard.putNumber(pidPrefix + "kG", result.kG);
+
+    // Hot-reload velocity PID (Slot0)
+    m_shooter.updatePid(motorIndex, result.kP_velocity, kI, 0.0,
+        result.kV, result.kS, result.kA, result.kG);
+
+    // Hot-reload position PID (Slot1) if computed
+    if (result.kP_position > 0) {
+      m_shooter.updatePositionPid(motorIndex, result.kP_position, result.kD_position,
+          result.kV, result.kS, result.kA, result.kG);
+      mc.kP_pos = result.kP_position;
+      mc.kD_pos = result.kD_position;
+      SmartDashboard.putNumber(pidPrefix + "kP_pos", result.kP_position);
+      SmartDashboard.putNumber(pidPrefix + "kD_pos", result.kD_position);
+    }
+
+    // Update config object
+    mc.kP = result.kP_velocity;
+    mc.kD = 0.0;
+    mc.kV = result.kV;
+    mc.kS = result.kS;
+    mc.kA = result.kA;
+    mc.kG = result.kG;
+
+    System.out.printf("[Apply %s] kP=%.6f kV=%.6f kS=%.6f kA=%.6f kG=%.6f%n",
+        name, result.kP_velocity, result.kV, result.kS, result.kA, result.kG);
+
+    // Save to JSON
+    if (m_config.save(CONFIG_FILENAME)) {
+      System.out.println("SysId results applied and saved for " + name);
+    } else {
+      System.out.println("SysId results applied but save failed for " + name);
+    }
+  }
+
+  /** Reads PID values from dashboard for a single motor, hot-reloads it, saves config. */
+  private void applyPidForMotor(int motorIndex) {
+    MotorConfig mc = m_config.motors.get(motorIndex);
+    String prefix = m_shooter.getMotorName(motorIndex) + "/PID/";
+
+    double kP = SmartDashboard.getNumber(prefix + "kP", mc.kP);
+    double kI = SmartDashboard.getNumber(prefix + "kI", mc.kI);
+    double kD = SmartDashboard.getNumber(prefix + "kD", mc.kD);
+    double kV = SmartDashboard.getNumber(prefix + "kV", mc.kV);
+    double kS = SmartDashboard.getNumber(prefix + "kS", mc.kS);
+    double kA = SmartDashboard.getNumber(prefix + "kA", mc.kA);
+    double kG = SmartDashboard.getNumber(prefix + "kG", mc.kG);
+
+    m_shooter.updatePid(motorIndex, kP, kI, kD, kV, kS, kA, kG);
+
+    // Position PID (Slot1)
+    double kP_pos = SmartDashboard.getNumber(prefix + "kP_pos", mc.kP_pos);
+    double kD_pos = SmartDashboard.getNumber(prefix + "kD_pos", mc.kD_pos);
+    m_shooter.updatePositionPid(motorIndex, kP_pos, kD_pos, kV, kS, kA, kG);
+
+    mc.kP = kP; mc.kI = kI; mc.kD = kD;
+    mc.kV = kV; mc.kS = kS; mc.kA = kA; mc.kG = kG;
+    mc.kP_pos = kP_pos; mc.kD_pos = kD_pos;
+
+    // Motion profiling from dashboard
+    double cruiseVel = SmartDashboard.getNumber(prefix.replace("PID/", "") + "Motion/CruiseVel",
+        mc.motionCruiseVelocity);
+    double accel = SmartDashboard.getNumber(prefix.replace("PID/", "") + "Motion/Accel",
+        mc.motionAcceleration);
+    double jerk = SmartDashboard.getNumber(prefix.replace("PID/", "") + "Motion/Jerk",
+        mc.motionJerk);
+    mc.motionCruiseVelocity = cruiseVel;
+    mc.motionAcceleration = accel;
+    mc.motionJerk = jerk;
+    m_shooter.getMotor(motorIndex).configureMotionProfile(cruiseVel, accel, jerk);
+
+    // Current limit from dashboard
+    double currLimit = SmartDashboard.getNumber(prefix.replace("PID/", "") + "CurrentLimit",
+        mc.currentLimit);
+    mc.currentLimit = currLimit;
+
+    // Also update this motor's setpoints
+    String sys = m_config.systemName;
+    for (var entry : m_config.setpoints.entrySet()) {
+      if (entry.getKey().contains(mc.name)) {
+        double val = SmartDashboard.getNumber(
+            sys + "/Setpoints/" + entry.getKey(), entry.getValue());
+        m_config.setpoints.put(entry.getKey(), val);
+      }
+    }
+
+    if (m_config.save(CONFIG_FILENAME)) {
+      System.out.println("PID applied and saved for " + mc.name);
+    } else {
+      System.out.println("PID applied but save failed for " + mc.name);
+    }
+  }
+
+  /** Reads PID values from dashboard for all motors, hot-reloads, saves config. */
   private void applyPidConfig() {
-    // Read PID values from SmartDashboard
-    double preKp = SmartDashboard.getNumber("Shooter/Preshooter/PID/kP", m_config.preshooterKp);
-    double preKi = SmartDashboard.getNumber("Shooter/Preshooter/PID/kI", m_config.preshooterKi);
-    double preKd = SmartDashboard.getNumber("Shooter/Preshooter/PID/kD", m_config.preshooterKd);
-    double preKv = SmartDashboard.getNumber("Shooter/Preshooter/PID/kV", m_config.preshooterKv);
-    double preKs = SmartDashboard.getNumber("Shooter/Preshooter/PID/kS", m_config.preshooterKs);
+    for (int i = 0; i < m_config.motors.size(); i++) {
+      MotorConfig mc = m_config.motors.get(i);
+      String prefix = m_shooter.getMotorName(i) + "/PID/";
 
-    double mainKp = SmartDashboard.getNumber("Shooter/MainShooter/PID/kP", m_config.mainShooterKp);
-    double mainKi = SmartDashboard.getNumber("Shooter/MainShooter/PID/kI", m_config.mainShooterKi);
-    double mainKd = SmartDashboard.getNumber("Shooter/MainShooter/PID/kD", m_config.mainShooterKd);
-    double mainKv = SmartDashboard.getNumber("Shooter/MainShooter/PID/kV", m_config.mainShooterKv);
-    double mainKs = SmartDashboard.getNumber("Shooter/MainShooter/PID/kS", m_config.mainShooterKs);
+      double kP = SmartDashboard.getNumber(prefix + "kP", mc.kP);
+      double kI = SmartDashboard.getNumber(prefix + "kI", mc.kI);
+      double kD = SmartDashboard.getNumber(prefix + "kD", mc.kD);
+      double kV = SmartDashboard.getNumber(prefix + "kV", mc.kV);
+      double kS = SmartDashboard.getNumber(prefix + "kS", mc.kS);
+      double kA = SmartDashboard.getNumber(prefix + "kA", mc.kA);
+      double kG = SmartDashboard.getNumber(prefix + "kG", mc.kG);
 
-    // Read setpoint and servo values from SmartDashboard
-    double preSetpoint1 = SmartDashboard.getNumber("Shooter/Preshooter/Setpoint1_RPM", m_config.preshooterSetpoint1Rpm);
-    double preSetpoint2 = SmartDashboard.getNumber("Shooter/Preshooter/Setpoint2_RPM", m_config.preshooterSetpoint2Rpm);
-    double mainSetpoint1 = SmartDashboard.getNumber("Shooter/MainShooter/Setpoint1_RPM", m_config.mainShooterSetpoint1Rpm);
-    double mainSetpoint2 = SmartDashboard.getNumber("Shooter/MainShooter/Setpoint2_RPM", m_config.mainShooterSetpoint2Rpm);
-    double servoPos1 = SmartDashboard.getNumber("Shooter/Servo/Position1", m_config.servoPosition1);
-    double servoPos2 = SmartDashboard.getNumber("Shooter/Servo/Position2", m_config.servoPosition2);
+      m_shooter.updatePid(i, kP, kI, kD, kV, kS, kA, kG);
 
-    // Hot-reload PID configuration
-    m_shooter.updatePreshooterPid(preKp, preKi, preKd, preKv, preKs);
-    m_shooter.updateMainShooterPid(mainKp, mainKi, mainKd, mainKv, mainKs);
+      mc.kP = kP;
+      mc.kI = kI;
+      mc.kD = kD;
+      mc.kV = kV;
+      mc.kS = kS;
+      mc.kA = kA;
+      mc.kG = kG;
+    }
 
-    // Update config object in memory
-    m_config.preshooterKp = preKp;
-    m_config.preshooterKi = preKi;
-    m_config.preshooterKd = preKd;
-    m_config.preshooterKv = preKv;
-    m_config.preshooterKs = preKs;
+    // Update setpoints in config
+    String sys = m_config.systemName;
+    for (var entry : m_config.setpoints.entrySet()) {
+      double val = SmartDashboard.getNumber(sys + "/Setpoints/" + entry.getKey(), entry.getValue());
+      m_config.setpoints.put(entry.getKey(), val);
+    }
 
-    m_config.mainShooterKp = mainKp;
-    m_config.mainShooterKi = mainKi;
-    m_config.mainShooterKd = mainKd;
-    m_config.mainShooterKv = mainKv;
-    m_config.mainShooterKs = mainKs;
+    // Update servo positions in config
+    for (var entry : m_config.servoPositions.entrySet()) {
+      double val = SmartDashboard.getNumber(sys + "/Servo/" + entry.getKey(), entry.getValue());
+      m_config.servoPositions.put(entry.getKey(), val);
+    }
 
-    m_config.preshooterSetpoint1Rpm = preSetpoint1;
-    m_config.preshooterSetpoint2Rpm = preSetpoint2;
-    m_config.mainShooterSetpoint1Rpm = mainSetpoint1;
-    m_config.mainShooterSetpoint2Rpm = mainSetpoint2;
-    m_config.servoPosition1 = servoPos1;
-    m_config.servoPosition2 = servoPos2;
-
-    // Save to JSON on roboRIO
-    if (ShooterConfigLoader.saveConfig(CONFIG_FILENAME, m_config)) {
+    if (m_config.save(CONFIG_FILENAME)) {
       System.out.println("PID configuration applied and saved!");
     } else {
       System.out.println("PID configuration applied but save failed!");
@@ -182,10 +427,21 @@ public class RobotContainer {
     return Commands.print("No autonomous command configured");
   }
 
-  /**
-   * Resolves a button name string to the corresponding controller trigger.
-   * Supported: A, B, X, Y, LEFT_BUMPER, RIGHT_BUMPER, BACK, START, LEFT_STICK, RIGHT_STICK
-   */
+  /** Returns a tuning workflow hint string based on mechanism type. */
+  private static String getWorkflowHint(MechanismType mechType) {
+    switch (mechType) {
+      case SIMPLE:
+        return "Tuning: 1.SysId -> 2.Apply -> 3.Test velocity setpoints";
+      case ELEVATOR:
+        return "Tuning: 1.Set limits -> 2.SysId -> 3.Apply -> 4.Set cruise/accel -> 5.Test profile";
+      case ARM:
+        return "Tuning: 1.Set limits -> 2.SysId -> 3.Apply -> 4.Set cruise/accel -> 5.Test profile";
+      default:
+        return "Tuning: 1.SysId -> 2.Apply -> 3.Test";
+    }
+  }
+
+  /** Resolves a button name string to the corresponding controller trigger. */
   private edu.wpi.first.wpilibj2.command.button.Trigger resolveButton(String buttonName) {
     switch (buttonName.toUpperCase()) {
       case "A": return m_driver.a();
@@ -199,7 +455,7 @@ public class RobotContainer {
       case "LEFT_STICK": return m_driver.leftStick();
       case "RIGHT_STICK": return m_driver.rightStick();
       default:
-        System.err.println("Unknown button name: " + buttonName + ", defaulting to A");
+        System.err.println("Unknown button: " + buttonName + ", defaulting to A");
         return m_driver.a();
     }
   }

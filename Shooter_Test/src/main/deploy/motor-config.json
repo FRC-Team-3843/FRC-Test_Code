@@ -1,0 +1,76 @@
+{
+  "systemName": "Shooter",
+  "motors": [
+    {
+      "name": "Preshooter",
+      "controllerType": "TALON_FX",
+      "motorKind": "KRAKEN_X44",
+      "canId": 20,
+      "canBus": "",
+      "mechanismType": "SIMPLE",
+      "gearRatio": 1.0,
+      "inverted": false,
+      "brakeMode": false,
+      "useFeedback": true,
+      "kP": 0.2,
+      "kI": 0.0,
+      "kD": 0.0,
+      "kV": 0.116,
+      "kS": 0.25,
+      "kA": 0.0,
+      "kG": 0.0,
+      "currentLimit": 40,
+      "wheelDiameter": 4.0,
+      "distancePerRotation": 0.0,
+      "armLength": 0.0,
+      "mass": 0.0
+    },
+    {
+      "name": "MainShooter",
+      "controllerType": "TALON_FX",
+      "motorKind": "KRAKEN",
+      "canId": 21,
+      "canBus": "",
+      "mechanismType": "SIMPLE",
+      "gearRatio": 1.0,
+      "inverted": false,
+      "brakeMode": false,
+      "useFeedback": true,
+      "kP": 0.2,
+      "kI": 0.0,
+      "kD": 0.0,
+      "kV": 0.111,
+      "kS": 0.25,
+      "kA": 0.0,
+      "kG": 0.0,
+      "currentLimit": 40,
+      "wheelDiameter": 4.0,
+      "distancePerRotation": 0.0,
+      "armLength": 0.0,
+      "mass": 0.0
+    }
+  ],
+  "setpoints": {
+    "setpoint1_Preshooter": 6500.0,
+    "setpoint1_MainShooter": 5500.0,
+    "setpoint2_Preshooter": 3250.0,
+    "setpoint2_MainShooter": 2750.0
+  },
+  "servoPositions": {
+    "position1": 0.95,
+    "position2": 0.45
+  },
+  "servoChannel": 0,
+  "velocityToleranceRpm": 50.0,
+  "driverControllerPort": 0,
+  "enableLogging": true,
+  "buttonBindings": {
+    "setpoint1": "A",
+    "setpoint2": "B",
+    "applyPid": "X",
+    "sysId_Preshooter": "Y",
+    "sysId_MainShooter": "BACK",
+    "servoPos1": "LEFT_BUMPER",
+    "servoPos2": "RIGHT_BUMPER"
+  }
+}

@@ -102,11 +102,20 @@ FRC-Test_Code/
 │   ├── src/main/java/...
 │   └── vendordeps/
 │
-└── TallonPIDTest/             ← TalonFX PID tuning test
+├── TallonPIDTest/             ← TalonFX PID tuning test
+│   ├── CLAUDE.md              ← Project-level redirect
+│   ├── GEMINI.md              ← Project-level redirect
+│   ├── AGENTS.md              ← Project-level redirect
+│   ├── src/main/java/...
+│   └── vendordeps/
+│
+└── Shooter_Test/              ← Universal motor system + on-robot SysId
     ├── CLAUDE.md              ← Project-level redirect
-    ├── GEMINI.md              ← Project-level redirect
-    ├── AGENTS.md              ← Project-level redirect
-    ├── src/main/java/...
+    ├── src/main/java/frc/robot/
+    │   ├── motor/             ← Motor abstraction layer
+    │   └── shooter/           ← Generic motor subsystem
+    ├── src/main/deploy/
+    │   └── motor-config.json  ← Motor system configuration
     └── vendordeps/
 ```
 
