@@ -1,0 +1,1310 @@
+{
+  "version" : 1.0,
+  "grid_size" : 128,
+  "tabs" : [ {
+    "name" : "Overview",
+    "grid_layout" : {
+      "layouts" : [ ],
+      "containers" : [ {
+        "title" : "Controls",
+        "x" : 0.0,
+        "y" : 0.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/Controls",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Metric",
+        "x" : 512.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/UseMetric",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "MotorA",
+        "x" : 0.0,
+        "y" : 128.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ControllerType",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Arm",
+        "x" : 256.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Armed",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "A Hold",
+        "x" : 384.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/DeadmanActive",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "Status",
+        "x" : 512.0,
+        "y" : 128.0,
+        "width" : 384.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Status",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Owner",
+        "x" : 896.0,
+        "y" : 128.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/ActionOwner",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Telemetry",
+        "x" : 1152.0,
+        "y" : 128.0,
+        "width" : 384.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Capabilities/Telemetry",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      } ]
+    }
+  }, {
+    "name" : "MotorA Setup",
+    "grid_layout" : {
+      "layouts" : [ ],
+      "containers" : [ {
+        "title" : "Controller Family",
+        "x" : 0.0,
+        "y" : 0.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ControllerFamily",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Transport",
+        "x" : 256.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Transport",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Mechanism Type",
+        "x" : 384.0,
+        "y" : 0.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/MechanismType",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Enabled",
+        "x" : 640.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Enabled",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Bench Armed",
+        "x" : 768.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Armed",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "DS Mode",
+        "x" : 896.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/DSMode",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "A Hold",
+        "x" : 1024.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/DeadmanActive",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "Geometry",
+        "x" : 0.0,
+        "y" : 128.0,
+        "width" : 384.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Geometry",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Gear Ratio",
+        "x" : 384.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/GearRatio",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Current Limit",
+        "x" : 512.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/CurrentLimit",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Apply Setup",
+        "x" : 640.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Setup/Apply",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Power Channel",
+        "x" : 768.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Power/Channel",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Detect Ch",
+        "x" : 896.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Power/Detect",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Detect Status",
+        "x" : 1024.0,
+        "y" : 128.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Power/DetectStatus",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Fwd On",
+        "x" : 0.0,
+        "y" : 256.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Limits/ForwardEnabled",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "Forward Limit",
+        "x" : 128.0,
+        "y" : 256.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Limits/Forward",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Rev On",
+        "x" : 256.0,
+        "y" : 256.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Limits/ReverseEnabled",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "Reverse Limit",
+        "x" : 384.0,
+        "y" : 256.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Limits/Reverse",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Samples To Average",
+        "x" : 1024.0,
+        "y" : 256.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Feedback/SamplesToAverage",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Feedback Inverted",
+        "x" : 1152.0,
+        "y" : 256.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Feedback/Inverted",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Continuous Wrap",
+        "x" : 1280.0,
+        "y" : 256.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Feedback/ContinuousWrap",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Distance Per Pulse",
+        "x" : 0.0,
+        "y" : 384.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Feedback/DistancePerPulseRot",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Full Range",
+        "x" : 256.0,
+        "y" : 384.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Feedback/FullRangeRot",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Feedback Offset",
+        "x" : 512.0,
+        "y" : 384.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Feedback/OffsetRot",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Wheel Diameter",
+        "x" : 768.0,
+        "y" : 384.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/WheelDiameter",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Distance Per Rotation",
+        "x" : 896.0,
+        "y" : 384.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/DistancePerRotation",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Arm Length",
+        "x" : 1024.0,
+        "y" : 384.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ArmLength",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Mass",
+        "x" : 1152.0,
+        "y" : 384.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Mass",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Telemetry",
+        "x" : 0.0,
+        "y" : 512.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Capabilities/Telemetry",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Automated",
+        "x" : 512.0,
+        "y" : 512.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Capabilities/Tests",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Unlock",
+        "x" : 0.0,
+        "y" : 640.0,
+        "width" : 1024.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Capabilities/Unlock",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Status",
+        "x" : 0.0,
+        "y" : 768.0,
+        "width" : 768.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Status",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Owner",
+        "x" : 768.0,
+        "y" : 768.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/ActionOwner",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      } ]
+    }
+  }, {
+    "name" : "MotorA Tuning",
+    "grid_layout" : {
+      "layouts" : [ ],
+      "containers" : [ {
+        "title" : "Bench Armed",
+        "x" : 0.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Armed",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "A Hold",
+        "x" : 128.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/DeadmanActive",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "Start SysId",
+        "x" : 256.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/StartSysId",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Manual Run",
+        "x" : 384.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/StartManualRun",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Cancel",
+        "x" : 512.0,
+        "y" : 0.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Cancel",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "Status",
+        "x" : 640.0,
+        "y" : 0.0,
+        "width" : 384.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Status",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Owner",
+        "x" : 1024.0,
+        "y" : 0.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/ActionOwner",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Support Level",
+        "x" : 1280.0,
+        "y" : 0.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Support/Level",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Control Mode",
+        "x" : 0.0,
+        "y" : 128.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "ComboBox Chooser",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ControlModeChooser",
+          "period" : 0.1
+        }
+      }, {
+        "title" : "Target",
+        "x" : 256.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/RunTarget",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Actual RPM",
+        "x" : 384.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ActualRPM",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "At SP",
+        "x" : 512.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/AtSetpoint",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "Current",
+        "x" : 640.0,
+        "y" : 128.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/CurrentAmps",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Chart",
+        "x" : 768.0,
+        "y" : 128.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "ComboBox Chooser",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ChartType",
+          "period" : 0.1
+        }
+      }, {
+        "title" : "Showing",
+        "x" : 1024.0,
+        "y" : 128.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ChartLabel",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Apply PID",
+        "x" : 1280.0,
+        "y" : 128.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Toggle Button",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ApplyPID",
+          "period" : 0.06,
+          "data_type" : "boolean"
+        }
+      }, {
+        "title" : "MotorA",
+        "x" : 0.0,
+        "y" : 256.0,
+        "width" : 768.0,
+        "height" : 512.0,
+        "type" : "Graph",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/ChartValue",
+          "period" : 0.02,
+          "data_type" : "double",
+          "time_range" : 10.0
+        }
+      }, {
+        "title" : "Velocity kP",
+        "x" : 768.0,
+        "y" : 256.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kP",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Velocity kI",
+        "x" : 1024.0,
+        "y" : 256.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kI",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Velocity kD",
+        "x" : 1280.0,
+        "y" : 256.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kD",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "kV",
+        "x" : 768.0,
+        "y" : 384.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kV",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "kS",
+        "x" : 1024.0,
+        "y" : 384.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kS",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "kA",
+        "x" : 1280.0,
+        "y" : 384.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kA",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "kG",
+        "x" : 768.0,
+        "y" : 512.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kG",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Position kP",
+        "x" : 1024.0,
+        "y" : 512.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kP_pos",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Position kD",
+        "x" : 1280.0,
+        "y" : 512.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/PID/kD_pos",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Cruise Velocity",
+        "x" : 768.0,
+        "y" : 640.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Motion/CruiseVel",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Acceleration",
+        "x" : 1024.0,
+        "y" : 640.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Motion/Accel",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "Jerk",
+        "x" : 1280.0,
+        "y" : 640.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Motion/Jerk",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : true
+        }
+      }, {
+        "title" : "SysId Status",
+        "x" : 0.0,
+        "y" : 768.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/Status",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Apply SysId",
+        "x" : 512.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/ApplyResults",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "kS",
+        "x" : 640.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/kS",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "kV",
+        "x" : 768.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/kV",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "kA",
+        "x" : 896.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/kA",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "kP vel",
+        "x" : 1024.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/kP_vel",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "kP pos",
+        "x" : 1152.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/kP_pos",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "R2",
+        "x" : 1280.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/R2_Accel",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "RMSE",
+        "x" : 1408.0,
+        "y" : 768.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/SysId/RMSE",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      } ]
+    }
+  }, {
+    "name" : "MotorA Testing",
+    "grid_layout" : {
+      "layouts" : [ ],
+      "containers" : [ {
+        "title" : "Support Level",
+        "x" : 0.0,
+        "y" : 0.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Support/Level",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Support Note",
+        "x" : 256.0,
+        "y" : 0.0,
+        "width" : 1280.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Support/Note",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Telemetry Available",
+        "x" : 0.0,
+        "y" : 128.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Capabilities/Telemetry",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Automated Tests",
+        "x" : 512.0,
+        "y" : 128.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Capabilities/Tests",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Capability Summary",
+        "x" : 1024.0,
+        "y" : 128.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/CapabilitySummary",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Needed To Unlock",
+        "x" : 0.0,
+        "y" : 256.0,
+        "width" : 1024.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Capabilities/Unlock",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Bench Status",
+        "x" : 1024.0,
+        "y" : 256.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Bench/Status",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Closed Loop",
+        "x" : 0.0,
+        "y" : 384.0,
+        "width" : 384.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/ClosedLoopSource",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Power Source",
+        "x" : 384.0,
+        "y" : 384.0,
+        "width" : 384.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/PowerTelemetrySource",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "FB OK",
+        "x" : 768.0,
+        "y" : 384.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Boolean Box",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/FeedbackConnected",
+          "period" : 0.06,
+          "data_type" : "boolean",
+          "true_color" : 4283215696,
+          "false_color" : 4294198070,
+          "true_icon" : "None",
+          "false_icon" : "None"
+        }
+      }, {
+        "title" : "Feedback",
+        "x" : 896.0,
+        "y" : 384.0,
+        "width" : 256.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/FeedbackSource",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Detect",
+        "x" : 1152.0,
+        "y" : 384.0,
+        "width" : 384.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Power/DetectStatus",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Health",
+        "x" : 0.0,
+        "y" : 512.0,
+        "width" : 512.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/TelemetryHealth",
+          "period" : 0.1,
+          "data_type" : "string",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Vel RPS",
+        "x" : 512.0,
+        "y" : 512.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/MeasuredVelocityRps",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Pos Rot",
+        "x" : 640.0,
+        "y" : 512.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/MeasuredPositionRot",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Volts",
+        "x" : 768.0,
+        "y" : 512.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/MeasuredVoltage",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Current",
+        "x" : 896.0,
+        "y" : 512.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/MeasuredCurrent",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "Temp C",
+        "x" : 1024.0,
+        "y" : 512.0,
+        "width" : 128.0,
+        "height" : 128.0,
+        "type" : "Text Display",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/MeasuredTemperatureC",
+          "period" : 0.1,
+          "data_type" : "double",
+          "show_submit_button" : false
+        }
+      }, {
+        "title" : "MotorA Test Graph",
+        "x" : 0.0,
+        "y" : 640.0,
+        "width" : 1024.0,
+        "height" : 256.0,
+        "type" : "Graph",
+        "properties" : {
+          "topic" : "/SmartDashboard/MotorSystem/MotorA/Testing/MeasuredVelocityRps",
+          "period" : 0.02,
+          "data_type" : "double",
+          "time_range" : 10.0
+        }
+      } ]
+    }
+  } ]
+}

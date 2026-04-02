@@ -1,0 +1,83 @@
+import groovy.json.JsonSlurper
+import org.gradle.api.initialization.resolve.RepositoriesMode
+import org.gradle.internal.os.OperatingSystem
+
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        String frcYear = '2026'
+        File frcHome
+        if (OperatingSystem.current().isWindows()) {
+            String publicFolder = System.getenv('PUBLIC')
+            if (publicFolder == null) {
+                publicFolder = "C:\\Users\\Public"
+            }
+            def homeRoot = new File(publicFolder, "wpilib")
+            frcHome = new File(homeRoot, frcYear)
+        } else {
+            def userFolder = System.getProperty("user.home")
+            def homeRoot = new File(userFolder, "wpilib")
+            frcHome = new File(homeRoot, frcYear)
+        }
+        def frcHomeMaven = new File(frcHome, 'maven')
+        maven {
+            name = 'frcHome'
+            url = frcHomeMaven
+        }
+    }
+}
+
+String frcYear = '2026'
+File frcHome
+if (OperatingSystem.current().isWindows()) {
+    String publicFolder = System.getenv('PUBLIC')
+    if (publicFolder == null) {
+        publicFolder = "C:\\Users\\Public"
+    }
+    def homeRoot = new File(publicFolder, "wpilib")
+    frcHome = new File(homeRoot, frcYear)
+} else {
+    def userFolder = System.getProperty("user.home")
+    def homeRoot = new File(userFolder, "wpilib")
+    frcHome = new File(homeRoot, frcYear)
+}
+def frcHomeMaven = new File(frcHome, 'maven')
+def vendordepDir = new File(settingsDir, 'vendordeps')
+def vendordepUrls = [] as LinkedHashSet<String>
+if (vendordepDir.exists()) {
+    def slurper = new JsonSlurper()
+    vendordepDir.eachFileMatch(~/.*\.json/) { vendordepFile ->
+        def json = slurper.parse(vendordepFile)
+        (json.mavenUrls ?: []).each { url ->
+            vendordepUrls.add(url.toString())
+        }
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.PREFER_PROJECT
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            name = 'frcHome'
+            url = frcHomeMaven
+        }
+        vendordepUrls.eachWithIndex { vendordepUrl, index ->
+            maven {
+                name = "vendordep${index}"
+                url = uri(vendordepUrl)
+            }
+        }
+    }
+}
+
+rootProject.name = "Motor_System"
+include("motor-core")
+include("motor-tune")
+include("motor-test")
+include("motor-dashboard")
+
+Properties props = System.getProperties();
+props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true");

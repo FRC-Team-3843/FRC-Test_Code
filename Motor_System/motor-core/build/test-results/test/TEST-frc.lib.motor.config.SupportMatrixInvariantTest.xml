@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="frc.lib.motor.config.SupportMatrixInvariantTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-03-09T20:49:54" hostname="XPS13" time="0.003">
+  <properties/>
+  <testcase name="everyControllerFamilyHasExplicitSupportLevelsForCanAndPwm()" classname="frc.lib.motor.config.SupportMatrixInvariantTest" time="0.001"/>
+  <testcase name="limitedAndUnimplementedPathsExposeHumanReadableNotes()" classname="frc.lib.motor.config.SupportMatrixInvariantTest" time="0.0"/>
+  <testcase name="supportLevelsDriveControllerTypeAndRuntimeFlagsConsistently()" classname="frc.lib.motor.config.SupportMatrixInvariantTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
