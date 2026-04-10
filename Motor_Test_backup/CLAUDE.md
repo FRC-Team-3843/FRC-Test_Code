@@ -1,49 +1,12 @@
-# Motor_Test - Claude Configuration
+# Motor_Test_backup - Claude IDE Entry Point
 
-This is a project-level redirect file.
+This project is part of the **FRC-Test_Code** repository.
 
-## Configuration Hierarchy
+## Configuration Sources
 
-When working in the Motor_Test project, Claude should read configurations in this order:
-
-1. **Root coordination protocol:** `C:\github\CLAUDE.md`
-   - Cross-agent coordination rules
-   - Activity logging format
-   - Handoff procedures
-
-2. **Repository configuration:** `C:\github\FRC-Test_Code\CLAUDE.md`
-   - Test project guidelines
-   - Hardware test focus
-   - API usage standards
-   - Claude-specific workflow for test projects
-
-3. **This project:**
-   - Motor_Test is a standalone motor hardware test project
-   - Clean 2026 command-based template
-   - Focused on motor control validation
-
-## Quick Reference
-
-- **Activity log:** `C:\github\FRC-Test_Code\.agent-log\changelog.md`
-- **Handoffs:** `C:\github\FRC-Test_Code\.agent-log\handoffs.md`
-- **Repo rules:** `C:\github\FRC-Test_Code\CLAUDE.md`
-- **Root protocol:** `C:\github\CLAUDE.md`
-
-## Motor_Test Project Details
-
-**Purpose:** Hardware validation for motor controllers (SparkMax, TalonFX, etc.)
-
-**Key Features:**
-- 2026 command-based architecture
-- Focused motor control testing
-- Hardware validation and tuning
-
-**When working here:**
-- Document CAN IDs and wiring requirements
-- Use current motor APIs (check FRC-2026 standards)
-- Keep tests minimal and focused
-- Log test results to changelog
-
----
-
-For complete instructions, read the files listed above in order.
+1. **Root coordination protocol:** Read `C:\GitHub\PROTOCOL.md`
+2. **Repo protocol:** Read `FRC-Test_Code\PROTOCOL.md`
+3. **Technical standards:** Read `FRC-Test_Code\STANDARDS.md`
+4. **Project context:** Read `FRC-Test_Code\.agent-context.md`
+5. **Activity log:** Check `FRC-Test_Code\.agent-log\changelog.md`
+6. **Handoffs:** Check `FRC-Test_Code\.agent-log\handoffs.md`

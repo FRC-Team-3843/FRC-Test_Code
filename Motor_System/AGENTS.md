@@ -1,25 +1,12 @@
-# Motor_System - Codex Configuration
+# Motor_System - Codex IDE Entry Point
 
-This is a project-level redirect file.
+This project is part of the **FRC-Test_Code** repository.
 
-## Configuration Hierarchy
+## Configuration Sources
 
-When working in the Motor_System project, Codex should read configurations in this order:
-
-1. `C:\github\AGENTS.md`
-2. `C:\github\FRC-Test_Code\AGENTS.md`
-3. This project
-
-## Quick Reference
-
-- Activity log: `C:\github\FRC-Test_Code\Motor_System\.agent-log\changelog.md`
-- Handoffs: `C:\github\FRC-Test_Code\.agent-log\handoffs.md`
-- Repo rules: `C:\github\FRC-Test_Code\AGENTS.md`
-- Root protocol: `C:\github\AGENTS.md`
-
-## Project Focus
-
-- Generic config-driven motor abstraction
-- On-robot setup, tuning, and characterization
-- Reusable motor-channel building blocks for mechanisms
-- Automatic Elastic dashboard generation from config
+1. **Root coordination protocol:** Read `C:\GitHub\PROTOCOL.md`
+2. **Repo protocol:** Read `FRC-Test_Code\PROTOCOL.md`
+3. **Technical standards:** Read `FRC-Test_Code\STANDARDS.md`
+4. **Project context:** Read `FRC-Test_Code\.agent-context.md`
+5. **Activity log:** Check `FRC-Test_Code\.agent-log\changelog.md`
+6. **Handoffs:** Check `FRC-Test_Code\.agent-log\handoffs.md`
