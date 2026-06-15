@@ -1,8 +1,7 @@
 ---
 id: motor-system-frc-test
 title: Motor_System (FRC-Test_Code) — config-driven multi-module motor abstraction library
-type: reference
-schema_version: 1
+schema_version: 2
 created: 2026-06-14T12:30:00Z
 updated: 2026-06-14T12:30:00Z
 valid_until: null
@@ -10,7 +9,7 @@ author: claude
 session: null
 tags: [frc, robotics, motor, library, gradle, wpilib]
 aliases: [motor system, motor-system, frc motor abstraction, motor-core, motor-tune, motor-test, motor-dashboard]
-status: dormant
+status: active
 supersedes: null
 confidence: 55
 source_basis: document
@@ -24,6 +23,10 @@ provenance:
   recall-extract: claude-sonnet-4-6
   find-missing: claude-sonnet-4-6
   precision-judge: claude-sonnet-4-6
+lifecycle: paused
+artifact_kind: memory
+memory_class: semantic
+semantic_kind: entity_profile
 ---
 
 # Motor_System (FRC-Test_Code) — config-driven multi-module motor abstraction library

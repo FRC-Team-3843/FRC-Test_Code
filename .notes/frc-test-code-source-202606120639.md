@@ -1,15 +1,19 @@
 ---
 id: frc-test-code-source-202606120639
 title: FRC-Test_Code — Team 3843 hardware validation and drive-base reference repo
-type: reference
-schema_version: 1
+schema_version: 2
 created: 2026-06-12T06:39:00Z
 updated: 2026-06-12T06:39:00Z
 path: C:\GitHub\FRC-Test_Code
-status: dormant
+status: active
 reachable_via: local
 tags: [frc, robotics, archive, reference, hardware]
 aliases: [frc test code, test code, robot test projects, drive base references]
+lifecycle: paused
+artifact_kind: reference
+model: unattributed
+model_basis: unattributed
+author: claude
 ---
 
 # FRC-Test_Code — Team 3843 hardware validation and drive-base reference repo

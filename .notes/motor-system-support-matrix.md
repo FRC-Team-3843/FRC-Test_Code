@@ -1,8 +1,7 @@
 ---
 id: motor-system-support-matrix
 title: Motor_System support matrix — supported/recognized_limited/recognized_unimplemented failure-loud pattern
-type: feedback
-schema_version: 1
+schema_version: 2
 created: 2026-06-14T12:30:00Z
 updated: 2026-06-14T12:30:00Z
 valid_until: null
@@ -24,6 +23,9 @@ provenance:
   recall-extract: claude-sonnet-4-6
   find-missing: claude-sonnet-4-6
   precision-judge: claude-sonnet-4-6
+artifact_kind: memory
+memory_class: procedural
+enforceability: preferred
 ---
 
 # Motor_System support matrix — supported/recognized_limited/recognized_unimplemented failure-loud pattern

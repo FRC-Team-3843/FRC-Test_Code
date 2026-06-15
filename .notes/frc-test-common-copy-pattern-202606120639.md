@@ -1,8 +1,7 @@
 ---
 id: frc-test-common-copy-pattern-202606120639
 title: FRC-Test_Code _common folder — copy-not-import pattern for shared motor code
-type: note
-schema_version: 1
+schema_version: 2
 created: 2026-06-12T06:39:00Z
 updated: 2026-06-12T06:39:00Z
 valid_until: null
@@ -17,6 +16,10 @@ source_basis: conversation
 human_edited: false
 sensitivity: normal
 decisions: []
+artifact_kind: memory
+memory_class: semantic
+model: unattributed
+model_basis: unattributed
 ---
 
 # FRC-Test_Code _common folder — copy-not-import pattern for shared motor code
