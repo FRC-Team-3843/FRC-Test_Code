@@ -1,15 +1,9 @@
-# Motor_Test_backup - Claude IDE Entry Point
+# Motor_Test_backup - Claude
 
 This project is part of the **FRC-Test_Code** repository.
 
-Read the repo-local files first:
+Read `..\.changelog.md`, `..\.project-context.md`, `..\.standards.md`, `..\.protocol.md` at session start.
 
-1. `..\.protocol.md`
-2. `..\.standards.md`
-3. `..\.project-context.md`
-4. `..\.changelog.md`
+## Agent-Specific
 
-The repo is intended to work on its own without requiring `C:\GitHub` to exist.
-
-- **Changelog tag:** `CLAUDE`
-- **Other agents:** Gemini (..\\GEMINI.md), Codex (..\\AGENTS.md)
+- Tag: CLAUDE

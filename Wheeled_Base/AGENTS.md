@@ -1,15 +1,9 @@
-# Wheeled_Base - Codex IDE Entry Point
+# Wheeled_Base - Codex
 
 This project is part of the **FRC-Test_Code** repository.
 
-Read the repo-local files first:
+Read `..\.changelog.md`, `..\.project-context.md`, `..\.standards.md`, `..\.protocol.md` at session start.
 
-1. `..\.protocol.md`
-2. `..\.standards.md`
-3. `..\.project-context.md`
-4. `..\.changelog.md`
+## Agent-Specific
 
-The repo is intended to work on its own without requiring `C:\GitHub` to exist.
-
-- **Changelog tag:** `CODEX`
-- **Other agents:** Claude (..\\CLAUDE.md), Gemini (..\\GEMINI.md)
+- Tag: CODEX
