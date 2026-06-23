@@ -18,7 +18,7 @@ related: []
 status: active
 supersedes: null
 confidence: 55
-source_basis: recovered-reconstruction
+source_basis: transcript
 human_edited: false
 sensitivity: normal
 decisions: []
