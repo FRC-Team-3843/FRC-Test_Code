@@ -4,7 +4,7 @@ artifact_kind: reference
 schema_version: 2
 title: FRC-Test_Code test architecture — verbose telemetry, enable-flags, JSON config-loading, IO abstraction
 created: 2026-06-23T19:00:00Z
-updated: 2026-06-23T19:00:00Z
+updated: 2026-06-23T20:30:00Z
 author: claude
 model: claude-opus-4-8
 model_basis: confirmed
@@ -33,6 +33,7 @@ Test projects use the same WPILib 2026 command-based framework as competition co
 - [registry] JSON configuration pattern — rapid tuning without recompilation: config files live in `src/main/deploy` (e.g. `motor-config.json`); `MotorConfigLoader` reads them at runtime; `DriveIO` implementations load configs instead of hardcoding constants. Usage: `var configs = MotorConfigLoader.loadConfigs("motor-config.json"); frontLeft = MotorFactory.createMotor(configs.get("frontLeft"));` #json-config (put CAN IDs + motor params in deploy JSON, not Constants.java)
 - [registry] IO abstraction pattern — drive bases use IO interfaces for hardware: `DriveIO` interface (`setVoltages(left,right)`, `getWheelPositionsMeters()`, ...) with concrete impl `DriveIOTank implements DriveIO` (holds `UniversalMotor leftMotor/rightMotor`); the subsystem (`TankDriveSubsystem extends SubsystemBase`) depends on the `DriveIO` interface, not the concrete class. #io-abstraction
 - [registry] IO-abstraction benefits: hardware swappable without changing subsystem logic; supports simulation (add a `DriveIOSim` implementation); facilitates unit testing. #io-abstraction
+- [registry] Gyro uses the same swappable-IO pattern as `DriveIO`: `GyroIO` interface (`getRotation()`, `reset()`) in Wheeled_Base `frc.robot.drive` with concrete impls `GyroIOPigeon2` (takes `canId`) / `GyroIOAdis16470` / `GyroIOAdxrs450` / `GyroIONone`, selected at runtime by `GyroConfigLoader.createGyroIO(GyroConfig)` from the `gyro` section of the deploy JSON (type PIGEON2/ADIS16470/ADXRS450/NONE; NONE or missing section → `GyroIONone`). Note: `inverted` is parsed into `GyroConfig` but not yet applied by the impls (TODO in `GyroConfigLoader`). #io-abstraction #json-config
 
 ## Relations
 
