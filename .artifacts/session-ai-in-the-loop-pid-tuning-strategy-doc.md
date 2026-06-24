@@ -1,5 +1,5 @@
 ---
-id: recovered-2026-02-05-979168d3
+id: ai-in-the-loop-pid-tuning-strategy-doc
 model: claude-sonnet-4-6
 model_basis: confirmed
 original_session_model: unattributed
@@ -13,7 +13,7 @@ author: claude
 session: recovered-979168d3
 original_session_date: 2026-02-05
 tags: [recovered, reconstructed, frc, test-code]
-aliases: []
+aliases: [recovered-2026-02-05-979168d3]
 related: [recovered-2026-02-05-a5f44b83]
 status: active
 supersedes: null

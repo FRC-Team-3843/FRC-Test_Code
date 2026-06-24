@@ -1,5 +1,5 @@
 ---
-id: recovered-2026-02-05-a5f44b83
+id: elastic-smartdashboard-fix-pid-tuning-workflow
 model: claude-sonnet-4-6
 model_basis: confirmed
 original_session_model: unattributed
@@ -13,7 +13,7 @@ author: claude
 session: recovered-a5f44b83
 original_session_date: 2026-02-05
 tags: [recovered, reconstructed, frc, test-code]
-aliases: []
+aliases: [recovered-2026-02-05-a5f44b83]
 related: [recovered-2026-02-05-979168d3]
 status: active
 supersedes: null

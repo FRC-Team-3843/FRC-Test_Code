@@ -1,5 +1,5 @@
 ---
-id: recovered-2026-02-02-3302a811
+id: shooter-test-rename-deploy-elastic-triage
 model: claude-sonnet-4-6
 model_basis: confirmed
 original_session_model: unattributed
@@ -13,7 +13,7 @@ author: claude
 session: recovered-3302a811
 original_session_date: 2026-02-02
 tags: [recovered, reconstructed, frc, test-code]
-aliases: []
+aliases: [recovered-2026-02-02-3302a811]
 related: [recovered-2026-02-05-a5f44b83]
 status: active
 supersedes: null

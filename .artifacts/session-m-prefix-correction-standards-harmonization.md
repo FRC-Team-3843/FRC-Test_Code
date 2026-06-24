@@ -1,5 +1,5 @@
 ---
-id: recovered-2026-01-25-a5ff4670
+id: m-prefix-correction-standards-harmonization
 model: claude-sonnet-4-6
 model_basis: confirmed
 original_session_model: unattributed
@@ -13,7 +13,7 @@ author: claude
 session: recovered-a5ff4670
 original_session_date: 2026-01-25
 tags: [recovered, reconstructed, frc, test-code]
-aliases: []
+aliases: [recovered-2026-01-25-a5ff4670]
 related: [recovered-2026-01-25-ca2758c3]
 status: active
 supersedes: null

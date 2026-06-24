@@ -1,5 +1,5 @@
 ---
-id: recovered-2026-01-30-959875c6
+id: motor-button-b-debug-can-disposal-elastic
 model: claude-sonnet-4-6
 model_basis: confirmed
 original_session_model: unattributed
@@ -13,7 +13,7 @@ author: claude
 session: recovered-959875c6
 original_session_date: 2026-01-30
 tags: [recovered, reconstructed, frc, test-code]
-aliases: []
+aliases: [recovered-2026-01-30-959875c6]
 related: []
 status: active
 supersedes: null

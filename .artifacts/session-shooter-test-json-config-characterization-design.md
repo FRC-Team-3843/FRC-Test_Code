@@ -1,5 +1,5 @@
 ---
-id: recovered-2026-03-01-271569a8
+id: shooter-test-json-config-characterization-design
 model: claude-sonnet-4-6
 model_basis: confirmed
 original_session_model: unattributed
@@ -13,7 +13,7 @@ author: claude
 session: recovered-271569a8
 original_session_date: 2026-03-01
 tags: [recovered, reconstructed, frc, test-code]
-aliases: []
+aliases: [recovered-2026-03-01-271569a8]
 related: []
 status: active
 supersedes: null
