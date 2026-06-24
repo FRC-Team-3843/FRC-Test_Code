@@ -39,6 +39,6 @@ Test projects use the same WPILib 2026 command-based framework as competition co
 
 - relates-to [[frc-test-subprojects]] (the bases that use these patterns)
 - relates-to [[frc-test-config-driven-decisions]] (how config-driven loading evolved over Jan–Mar 2026)
-- relates-to [[frc-test-common-copy-pattern-202606120639]] (MotorConfigLoader/GyroConfigLoader + the deploy-JSON convention)
+- relates-to [[frc-test-common-copy-pattern]] (MotorConfigLoader/GyroConfigLoader + the deploy-JSON convention)
 - relates-to [[motor-system-frc-test]] (Motor_System's own config-driven dashboard generation)
 - relates-to [[frc-team-3843]]

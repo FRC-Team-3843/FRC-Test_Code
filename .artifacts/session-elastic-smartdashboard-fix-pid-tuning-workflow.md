@@ -14,7 +14,7 @@ session: recovered-a5f44b83
 original_session_date: 2026-02-05
 tags: [recovered, reconstructed, frc, test-code]
 aliases: [recovered-2026-02-05-a5f44b83]
-related: [recovered-2026-02-05-979168d3]
+related: [ai-in-the-loop-pid-tuning-strategy-doc]
 status: active
 supersedes: null
 confidence: 55

@@ -28,14 +28,14 @@ These are the `@always` critical rules from FRC-Test_Code's local protocol — t
 ## Observations
 
 - [constraint] Build from the specific sub-project directory and always set JAVA_HOME to WPILib JDK 17: `JAVA_HOME="C:/Users/Public/wpilib/2026/jdk" ./gradlew build` run from inside the sub-project (e.g. `cd Motor_System && ...`). System Java is Java 8 and WILL fail the build. #build ([[wpilib-build-env]])
-- [constraint] `_common` is COPY-not-import: update `_common` FIRST, then propagate the change to all consuming sub-projects and verify each builds. NEVER import from `_common` directly. #architecture (full rationale + class list in [[frc-test-common-copy-pattern-202606120639]] — this is the enforceable guard, that artifact is the explanation)
+- [constraint] `_common` is COPY-not-import: update `_common` FIRST, then propagate the change to all consuming sub-projects and verify each builds. NEVER import from `_common` directly. #architecture (full rationale + class list in [[frc-test-common-copy-pattern]] — this is the enforceable guard, that artifact is the explanation)
 - [constraint] `Motor_Test_backup` is historical backup ONLY — use `Motor_System` for any new motor-abstraction work. #reference
 - [constraint] Wheeled_Base's PathPlanner controller is `PPLTVController` (differential/tank drive), NOT `PPHolonomicDriveController`. Mixing these up breaks path following. #pathplanner (hazard: holonomic controller on a differential base produces incorrect trajectory tracking)
 - [constraint] No secrets or credentials live in this repo. No secret-scan exceptions. #security
 
 ## Relations
 
-- relates-to [[frc-test-common-copy-pattern-202606120639]] (the _common copy-not-import pattern explained in full)
+- relates-to [[frc-test-common-copy-pattern]] (the _common copy-not-import pattern explained in full)
 - relates-to [[frc-test-local-workflow]] (the broader local workflow these guards sit inside)
 - relates-to [[frc-test-subprojects]] (Motor_Test_backup / Wheeled_Base / Motor_System context)
 - relates-to [[wpilib-build-env]] (JDK 17)

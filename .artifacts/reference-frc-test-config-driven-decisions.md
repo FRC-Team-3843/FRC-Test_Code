@@ -33,7 +33,7 @@ Last recorded commit-level work in FRC-Test_Code was 2026-03-01. The repo's dire
 ## Relations
 
 - relates-to [[frc-test-architecture-patterns]] (the JSON config-loading pattern this evolution produced)
-- relates-to [[frc-test-common-copy-pattern-202606120639]] (GyroConfig/GyroConfigLoader landed in _common; the deploy-JSON convention)
+- relates-to [[frc-test-common-copy-pattern]] (GyroConfig/GyroConfigLoader landed in _common; the deploy-JSON convention)
 - relates-to [[frc-test-motor-rebuild-close-gotcha]] (the 2026-01-30 reconfiguration fix from the same period)
 - relates-to [[motor-system-frc-test]] (Motor_System's own config-driven dashboard generation)
 - relates-to [[frc-team-3843]]

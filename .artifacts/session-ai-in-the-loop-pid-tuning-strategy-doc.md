@@ -14,7 +14,7 @@ session: recovered-979168d3
 original_session_date: 2026-02-05
 tags: [recovered, reconstructed, frc, test-code]
 aliases: [recovered-2026-02-05-979168d3]
-related: [recovered-2026-02-05-a5f44b83]
+related: [elastic-smartdashboard-fix-pid-tuning-workflow]
 status: active
 supersedes: null
 confidence: 55

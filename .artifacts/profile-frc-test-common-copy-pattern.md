@@ -1,5 +1,5 @@
 ---
-id: frc-test-common-copy-pattern-202606120639
+id: frc-test-common-copy-pattern
 title: FRC-Test_Code _common folder — copy-not-import pattern for shared motor code
 schema_version: 2
 created: 2026-06-12T06:39:00Z
@@ -8,7 +8,7 @@ valid_until: null
 author: claude
 session: phase7-onboarding-20260612
 tags: [frc, robotics, architecture, reference]
-aliases: [common folder, copy not import, motor abstraction pattern, shared frc code]
+aliases: [frc-test-common-copy-pattern-202606120639, common folder, copy not import, motor abstraction pattern, shared frc code]
 status: active
 supersedes: null
 confidence: 55
@@ -57,4 +57,4 @@ If spinning up a new FRC sub-project that needs motor abstractions, pull from Mo
 
 ## Relations
 
-[[frc-test-code-source-202606120639]] [[frc-team-3843]] [[wpilib-build-env]]
+[[frc-test-code-source]] [[frc-team-3843]] [[wpilib-build-env]]

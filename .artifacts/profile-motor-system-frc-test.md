@@ -63,7 +63,7 @@ Runtime config flows from `src/main/deploy/motor-config.json`; Elastic dashboard
 
 ## Relations
 
-- relates-to [[frc-test-code-source-202606120639]] (sub-project of FRC-Test_Code repo)
-- relates-to [[frc-test-common-copy-pattern-202606120639]] (Motor_System replaces _common/motor_system snapshot)
+- relates-to [[frc-test-code-source]] (sub-project of FRC-Test_Code repo)
+- relates-to [[frc-test-common-copy-pattern]] (Motor_System replaces _common/motor_system snapshot)
 - relates-to [[wpilib-build-env]] (requires JDK 17)
 - relates-to [[frc-team-3843]] (team 3843 project)

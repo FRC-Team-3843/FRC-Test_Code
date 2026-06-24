@@ -30,15 +30,15 @@ FRC-Test_Code holds standalone hardware-validation test projects and reusable dr
 - [registry] **Swerve_Base** — YAGSL-based swerve drive reference implementation, with PathPlanner + PhotonVision scaffold. #swerve
 - [registry] **Mecanum_Base** — Mecanum drive reference implementation: IO abstraction, JSON motor/gyro config. #mecanum
 - [registry] **Wheeled_Base** — Tank/arcade (standard wheeled) drive reference: IO abstraction, JSON motor/gyro config; uses `PPLTVController` for PathPlanner, NOT `PPHolonomicDriveController` (see [[frc-test-critical-rules]]). #tank
-- [registry] **_common** — copyable canonical snapshots of shared code (motor + gyro abstraction layer), COPIED not imported into projects. `_common/motor_system` is a LEGACY snapshot — prefer the Motor_System internal library modules. Pattern in [[frc-test-common-copy-pattern-202606120639]]. #shared
+- [registry] **_common** — copyable canonical snapshots of shared code (motor + gyro abstraction layer), COPIED not imported into projects. `_common/motor_system` is a LEGACY snapshot — prefer the Motor_System internal library modules. Pattern in [[frc-test-common-copy-pattern]]. #shared
 - [registry] **Motor_Test_backup** — archive/historical backup of the older Motor_Test utility; not the active path. Use Motor_System. #archive
 - [registry] Open item: PathPlanner autos/paths directories in the drive-base projects still need actual trajectories populated (source: .changelog.md 2026-01-25). #status
 
 ## Relations
 
 - relates-to [[motor-system-frc-test]] (Motor_System internals — do not re-explain here)
-- relates-to [[frc-test-common-copy-pattern-202606120639]] (_common copy-not-import)
+- relates-to [[frc-test-common-copy-pattern]] (_common copy-not-import)
 - relates-to [[frc-test-architecture-patterns]] (the IO-abstraction + JSON-config + telemetry patterns these bases share)
-- relates-to [[frc-test-code-source-202606120639]] (repo orientation)
+- relates-to [[frc-test-code-source]] (repo orientation)
 - relates-to [[frc-team-3843]]
 - relates-to [[wpilib-build-env]]

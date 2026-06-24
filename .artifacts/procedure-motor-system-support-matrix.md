@@ -58,4 +58,4 @@ Defined in `Motor_System/README.md` and enforced in the wrapper layer. Applied w
 ## Relations
 
 - relates-to [[motor-system-frc-test]] (this pattern is specific to Motor_System's wrapper architecture)
-- relates-to [[frc-test-code-source-202606120639]] (repo this pattern lives in)
+- relates-to [[frc-test-code-source]] (repo this pattern lives in)

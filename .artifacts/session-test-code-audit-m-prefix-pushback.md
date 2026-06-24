@@ -14,7 +14,7 @@ session: recovered-ca2758c3
 original_session_date: 2026-01-25
 tags: [recovered, reconstructed, frc, test-code]
 aliases: [recovered-2026-01-25-ca2758c3]
-related: [recovered-2026-01-25-a5ff4670]
+related: [m-prefix-correction-standards-harmonization]
 status: active
 supersedes: null
 confidence: 50

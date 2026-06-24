@@ -44,6 +44,6 @@ FRC-Test_Code is a standalone, self-contained repo of hardware-validation and re
 
 - relates-to [[frc-test-critical-rules]] (the @always enforceable guards — build/JDK, _common copy, controller hazards)
 - relates-to [[frc-test-subprojects]] (what each sub-project is)
-- relates-to [[frc-test-code-source-202606120639]] (repo orientation)
+- relates-to [[frc-test-code-source]] (repo orientation)
 - relates-to [[wpilib-build-env]] (JDK 17 build requirement)
 - relates-to [[frc-team-3843]]
