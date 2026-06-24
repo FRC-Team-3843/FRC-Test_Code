@@ -25,6 +25,7 @@ decisions: []
 artifact_kind: memory
 memory_class: episodic
 semantic_kind: state
+scope: FRC-Test_Code
 ---
 
 # recovered: AI-in-the-loop PID tuning debate + TUNING_STRATEGY.md created

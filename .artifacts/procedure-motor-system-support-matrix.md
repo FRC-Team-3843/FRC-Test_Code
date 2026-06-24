@@ -26,6 +26,7 @@ provenance:
 artifact_kind: memory
 memory_class: procedural
 enforceability: preferred
+scope: FRC-Test_Code
 ---
 
 # Motor_System support matrix — supported/recognized_limited/recognized_unimplemented failure-loud pattern

@@ -25,6 +25,7 @@ decisions: []
 artifact_kind: memory
 memory_class: episodic
 semantic_kind: state
+scope: FRC-Test_Code
 ---
 
 # recovered: multi-repo push + Elastic SmartDashboard fix + PID tuning workflow ask

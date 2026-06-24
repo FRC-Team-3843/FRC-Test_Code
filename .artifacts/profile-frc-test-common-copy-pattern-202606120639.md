@@ -20,6 +20,7 @@ artifact_kind: memory
 memory_class: semantic
 model: unattributed
 model_basis: unattributed
+scope: FRC-Test_Code
 ---
 
 # FRC-Test_Code _common folder — copy-not-import pattern for shared motor code

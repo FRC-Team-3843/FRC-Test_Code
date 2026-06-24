@@ -27,6 +27,7 @@ lifecycle: paused
 artifact_kind: memory
 memory_class: semantic
 semantic_kind: entity_profile
+scope: FRC-Test_Code
 ---
 
 # Motor_System (FRC-Test_Code) — config-driven multi-module motor abstraction library

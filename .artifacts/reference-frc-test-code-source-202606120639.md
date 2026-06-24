@@ -14,6 +14,7 @@ artifact_kind: reference
 model: unattributed
 model_basis: unattributed
 author: claude
+scope: FRC-Test_Code
 ---
 
 # FRC-Test_Code — Team 3843 hardware validation and drive-base reference repo

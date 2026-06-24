@@ -25,6 +25,7 @@ decisions: []
 artifact_kind: memory
 memory_class: episodic
 semantic_kind: state
+scope: FRC-Test_Code
 ---
 
 # recovered: Shooter_Test folder rename + deploy + Elastic layout triage
