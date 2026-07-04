@@ -26,6 +26,7 @@ artifact_kind: memory
 memory_class: episodic
 semantic_kind: state
 scope: FRC-Test_Code
+load_profile: on_demand
 ---
 
 # recovered: multi-repo push + Elastic SmartDashboard fix + PID tuning workflow ask

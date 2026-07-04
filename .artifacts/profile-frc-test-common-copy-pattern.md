@@ -21,6 +21,7 @@ memory_class: semantic
 model: unattributed
 model_basis: unattributed
 scope: FRC-Test_Code
+load_profile: on_demand
 ---
 
 # FRC-Test_Code _common folder — copy-not-import pattern for shared motor code

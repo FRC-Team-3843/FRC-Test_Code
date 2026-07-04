@@ -28,6 +28,7 @@ artifact_kind: memory
 memory_class: semantic
 semantic_kind: entity_profile
 scope: FRC-Test_Code
+load_profile: on_demand
 ---
 
 # Motor_System (FRC-Test_Code) — config-driven multi-module motor abstraction library

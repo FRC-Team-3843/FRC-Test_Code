@@ -15,6 +15,7 @@ model: unattributed
 model_basis: unattributed
 author: claude
 scope: FRC-Test_Code
+load_profile: on_demand
 ---
 
 # FRC-Test_Code — Team 3843 hardware validation and drive-base reference repo
