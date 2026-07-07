@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="frc.lib.motor.config.MotorSystemConfigLoaderTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-03-09T20:49:54" hostname="XPS13" time="0.064">
-  <properties/>
-  <testcase name="defaultConfigIsSingleMotorBaseline()" classname="frc.lib.motor.config.MotorSystemConfigLoaderTest" time="0.003"/>
-  <testcase name="loadReadsSchemaFromExplicitFile()" classname="frc.lib.motor.config.MotorSystemConfigLoaderTest" time="0.061"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
